@@ -1,7 +1,7 @@
 import os
 
 from databases import Database
-from sqlalchemy import (Column, Integer, DateTime, String, Table, create_engine, MetaData)
+from sqlalchemy import Column, Integer, DateTime, String, Table, create_engine, MetaData
 from sqlalchemy.sql import func
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -20,4 +20,3 @@ users = Table(
 
 
 db = Database(DATABASE_URL)
-
