@@ -54,7 +54,7 @@ jobs:
         run: poetry install --no-interaction
       
       - name: Format with black
-        run: poetry run black 'app' --check
+        run: poetry run black 'app' --check --verbose --diff --color
       
       - name: Run flake
         run:  poetry run flake8 'app'
