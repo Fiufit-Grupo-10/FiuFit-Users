@@ -18,5 +18,5 @@ sudo docker-compose exec <command>
 ```bash
 Commands:
 	web pytest -v	    # Correr tests
-	poetry run black .  # Formatear antes de commitear 
+	web poetry run black .  # Formatear antes de commitear 
 ```
