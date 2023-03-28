@@ -9,7 +9,12 @@ on:
       - tests/**
       - Dockerfile
       - docker-compose.yml
+  push:
+    branches:
+      - main
+    
   workflow_dispatch:
+  
 
 
 jobs:
