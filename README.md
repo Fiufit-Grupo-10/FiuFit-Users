@@ -3,4 +3,20 @@
 
 # python-template
 Template for python services
-## cambio
+
+Build the image and spin up the container:
+
+```bash
+docker-compose up -d --build
+```
+
+To run tests or other commands on the container
+
+```bash
+sudo docker-compose exec <command>
+```
+
+```bash
+Commands:
+	web pytest -v
+```
