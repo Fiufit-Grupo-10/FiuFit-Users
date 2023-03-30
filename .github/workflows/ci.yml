@@ -97,7 +97,7 @@ jobs:
         run: poetry run black 'app' --check --verbose --diff --color
       
       - name: Run flake
-        run:  poetry run flake8 'app'
+        run:  poetry run flake8 'app' --max-line-length 100
      
       - name: Run tests
         run: poetry run pytest -v --cov=app --cov-report term --cov-report xml:coverage.xml tests/
