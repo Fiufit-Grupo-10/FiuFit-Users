@@ -20,6 +20,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://fiufit:fiufitpass@db/fiufit_users_dev
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
