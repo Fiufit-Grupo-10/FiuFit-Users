@@ -22,22 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgresql://fiufit:fiufitpass@db/fiufit_users_dev
-    services:
-      db:
-        image: postgres:15.2-bullseye
-        volumes:
-          - postgres_data:/var/lib/postgresql/data/
-        expose:
-          - 5432
-        environment:
-          - POSTGRES_USER=fiufit
-          - POSTGRES_PASSWORD=fiufitpass
-          - POSTGRES_DB=fiufit_users_dev
-        networks:
-          - app_network
-    
-    volumes:
-      postgres_data:
+             
     
     steps:
       - name: Check out repository
@@ -96,5 +81,3 @@ jobs:
 
   
 
-networks:
-  app_network:
