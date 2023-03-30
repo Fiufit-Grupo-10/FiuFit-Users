@@ -22,6 +22,24 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgresql://fiufit:fiufitpass@db/fiufit_users_dev
+      
+    services:
+      db:
+        image: postgres:15.2-bullseye
+        env:          
+          POSTGRES_USERNAME: fiufit
+          POSTGRES_PASSWORD: fiufitpass
+          POSTGRES_DB: fiufit_users_dev
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+          
+          
              
     
     steps:
