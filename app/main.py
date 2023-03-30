@@ -1,20 +1,30 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from app.api import ping
-from app.db import engine, db, metadata
+from sqlalchemy.orm import Session
+from .sql_app.database import SessionLocal, engine
+from .sql_app import crud, models, schemas
 
-metadata.create_all(engine)
-
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
-@app.on_event("startup")
-async def startup():
-    await db.connect()
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
-@app.on_event("shutdown")
-async def shutdown():
-    await db.disconnect()
+@app.get("/")
+def default():
+    return {"welcome": "working"}
+
+
+@app.post("/users", response_model=schemas.User)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    return crud.create_user(db=db, user=user)
 
 
 app.include_router(ping.router)

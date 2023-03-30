@@ -10,6 +10,7 @@ services:
       - ./:/app
     environment:
       - DATABASE_URL=postgresql://fiufit:fiufitpass@db/fiufit_users_dev
+
   db:
     image: postgres:15.2-bullseye
     volumes:
