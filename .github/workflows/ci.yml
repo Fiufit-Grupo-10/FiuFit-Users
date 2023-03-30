@@ -77,22 +77,22 @@ jobs:
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
 
-services:
-  db:
-    image: postgres:15.2-bullseye
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_USER=fiufit
-      - POSTGRES_PASSWORD=fiufitpass
-      - POSTGRES_DB=fiufit_users_dev
-    networks:
-      - app_network
+  services:
+    db:
+      image: postgres:15.2-bullseye
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      expose:
+        - 5432
+      environment:
+        - POSTGRES_USER=fiufit
+        - POSTGRES_PASSWORD=fiufitpass
+        - POSTGRES_DB=fiufit_users_dev
+      networks:
+        - app_network
 
-volumes:
-  postgres_data:
+  volumes:
+    postgres_data:
 
 networks:
   app_network:
