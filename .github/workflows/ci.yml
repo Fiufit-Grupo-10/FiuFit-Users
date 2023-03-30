@@ -22,24 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgresql://fiufit:fiufitpass@db/fiufit_users_dev
-    services:
-      db:
-        image: postgres:15.2-bullseye
-        volumes:
-          - postgres_data:/var/lib/postgresql/data/
-        environment:
-          - POSTGRES_USER=fiufit
-          - POSTGRES_PASSWORD=fiufitpass
-          - POSTGRES_DB=fiufit_users_dev
-        ports:
-          - "5432:5432"
-        networks:
-          - postgres_network
-
-    networks:
-      postgres_network:
-        name: postgres_network
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -95,5 +77,22 @@ jobs:
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
 
+services:
+  db:
+    image: postgres:15.2-bullseye
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=fiufit
+      - POSTGRES_PASSWORD=fiufitpass
+      - POSTGRES_DB=fiufit_users_dev
+    networks:
+      - app_network
+
 volumes:
   postgres_data:
+
+networks:
+  app_network:
