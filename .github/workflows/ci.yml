@@ -24,6 +24,19 @@ jobs:
       DATABASE_URL: postgresql://fiufit:fiufitpass@db/fiufit_users_dev
       
     services:
+      web:
+        image: mywebapp:latest
+        ports:
+          - 8090:80
+        volumes:
+          - ./:/app
+        env:
+          DATABASE_URL=postgresql: //fiufit:fiufitpass@db/fiufit_users_dev
+        
+          
+          
+
+
       db:
         image: postgres:15.2-bullseye
         env:          
