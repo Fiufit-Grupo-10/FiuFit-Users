@@ -16,10 +16,10 @@ on:
   workflow_dispatch:
   
 
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    
     
       
     services:
@@ -91,7 +91,7 @@ jobs:
         run:  poetry run flake8 'app' --max-line-length 100
       
       - name: Check containers
-        run: docker ps -a
+        run: docker-compose rm -fv
       
       - name: Run tests
         env:
