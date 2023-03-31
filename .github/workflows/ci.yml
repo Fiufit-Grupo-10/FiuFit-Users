@@ -29,6 +29,7 @@ jobs:
           POSTGRES_USERNAME: fiufit
           POSTGRES_PASSWORD: fiufitpass
           POSTGRES_DB: fiufit_users_dev
+          POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
