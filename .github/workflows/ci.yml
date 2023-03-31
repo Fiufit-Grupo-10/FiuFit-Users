@@ -95,12 +95,12 @@ jobs:
       
       - name: test
         run : >-
-          --sudo su -postgres
-          --psql
-          --CREATE DATABASE fiufit_users_dev;
-          --CREATE USER fiufit WITH PASSWORD 'fiufitpass';
-          --GRANT ALL PRIVILEGES ON DATABASE fiufit_users_dev TO fiufit;
-          --\q
+          sudo su -postgres
+          psql
+          CREATE DATABASE fiufit_users_dev;
+          CREATE USER fiufit WITH PASSWORD 'fiufitpass';
+          GRANT ALL PRIVILEGES ON DATABASE fiufit_users_dev TO fiufit;
+          \q
         
       
       
