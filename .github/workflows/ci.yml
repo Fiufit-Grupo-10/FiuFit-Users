@@ -21,7 +21,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: postgresql://fiufit:fiufitpass@localhost/fiufit_users_dev
+      DATABASE_URL: postgresql://fiufit:fiufitpass@postgres/fiufit_users_dev
       
     services:
       db:
