@@ -85,7 +85,10 @@ jobs:
       
       - name: Run flake
         run:  poetry run flake8 'app' --max-line-length 100
-     
+      
+      - name: Check containers
+        run: docker ps -a
+      
       - name: Run tests
         env:
           DATABASE_URL: postgresql://fiufit:fiufitpass@localhost/fiufit_users_dev
