@@ -88,22 +88,8 @@ jobs:
         run: poetry run black 'app' --check --verbose --diff --color
       
       - name: Run flake
-        run:  poetry run flake8 'app' --max-line-length 100
-      
-      - name: Check containers
-        run: docker-compose rm -fv
-      
-      - name: test
-        run : >-
-          sudo su -postgres
-          psql
-          CREATE DATABASE fiufit_users_dev;
-          CREATE USER fiufit WITH PASSWORD 'fiufitpass';
-          GRANT ALL PRIVILEGES ON DATABASE fiufit_users_dev TO fiufit;
-          \q
-        
-      
-      
+        run:  poetry run flake8 'app' --max-line-length 100      
+           
       - name: Run tests
         env:
           DATABASE_URL: postgresql://fiufit:fiufitpass@localhost/fiufit_users_dev
