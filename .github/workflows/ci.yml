@@ -93,6 +93,17 @@ jobs:
       - name: Check containers
         run: docker-compose rm -fv
       
+      - name: test
+        run : >-
+          --sudo su -postgres
+          --psql
+          --CREATE DATABASE fiufit_users_dev;
+          --CREATE USER fiufit WITH PASSWORD 'fiufitpass';
+          --GRANT ALL PRIVILEGES ON DATABASE fiufit_users_dev TO fiufit;
+          --\q
+        
+      
+      
       - name: Run tests
         env:
           DATABASE_URL: postgresql://fiufit:fiufitpass@localhost/fiufit_users_dev
