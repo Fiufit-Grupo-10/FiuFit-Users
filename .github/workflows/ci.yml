@@ -25,6 +25,8 @@ jobs:
     services:
       db:
         image: postgres:15
+        volumes:
+          - postgres_data:/var/lib/postgresql/data/
         env:
           POSTGRES_DB: fiufit_users_dev
           POSTGRES_USERNAME: fiufit
@@ -38,6 +40,8 @@ jobs:
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
+          
+        
           
           
              
