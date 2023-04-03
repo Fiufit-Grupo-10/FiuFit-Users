@@ -1,21 +1,21 @@
 from pydantic import BaseModel
 
 
-class UserBase(BaseModel):
+class Interest(BaseModel):
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
+class User(BaseModel):
     email: str
-
-
-class UserCreate(UserBase):
     username: str
-    password: str
-
-
-class User(UserCreate):
-    username: str
-    # genero: str #Esto hay que hacer un enum
-    # cumpleaños: str #Esto un datetime
-    # altura: int # En cm
-    # peso: int # En Kg
+    height: int | None = None  # cm
+    weight: int | None = None  # kg
+    gender: str | None = None
+    target: str | None = None
+    interests: list[str] | None = None
 
     class Config:
         orm_mode = True
