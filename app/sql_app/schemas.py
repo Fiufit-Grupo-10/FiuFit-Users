@@ -9,6 +9,7 @@ class Interest(BaseModel):
     
 
 class UserBase(BaseModel):
+    id : str
     email: str
     username: str
     height: int | None = None  # cm

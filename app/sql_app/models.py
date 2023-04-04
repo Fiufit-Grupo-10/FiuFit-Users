@@ -4,9 +4,12 @@ from .database import Base
 
 
 class User(Base):
+    #__table_args__ = {"schema": "users"}
     __tablename__ = "users"
+    
 
-    email = Column(String, unique=True, primary_key=True, index=True)
+    id = Column(String,unique = True, primary_key = True, index= True)
+    email = Column(String, unique=True,index=True)
     username = Column(String, unique=True, index=True)
     height = Column(Integer, nullable=True)
     weight = Column(Integer, nullable=True)
@@ -19,7 +22,9 @@ class User(Base):
 
 
 class Interest(Base):
+    #__table_args__ = {"schema": "users"}
     __tablename__ = "interests"
+    
 
     user = Column(String, ForeignKey("users.username"), primary_key=True)
     name = Column(String, primary_key=True)
