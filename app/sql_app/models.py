@@ -15,8 +15,7 @@ class User(Base):
 
     interests = relationship("Interest", back_populates="owner")
 
-    def interests_list(self):
-        return [Interest(name=interest.name) for interest in self.interests]
+    
 
 
 class Interest(Base):
@@ -28,3 +27,4 @@ class Interest(Base):
     __table_args__ = (PrimaryKeyConstraint("user", "name"),)
 
     owner = relationship("User", back_populates="interests")
+    

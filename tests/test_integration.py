@@ -13,16 +13,16 @@ def test_post(test_app):
     }
 
 
-# def test_put(test_app):
-#     data = {"email": "t@gmail.com","username": "user", "height": "180","weight": "75","gender": "male", "target": "fat loss","interests": ["crossfit"]}
-#     response = test_app.put(url="/users", json=data)
-#     assert response.status_code == 200
-#     assert response.json() == {
-#         "email": "t@gmail.com",
-#         "username": "user",
-#         "height": 180,
-#         "weight": 75,
-#         "gender": "male",
-#         "target": "fat loss",
-#         "interests": ["crossfit"]
-#     }
+def test_put(test_app):
+    data = {"email": "t@gmail.com","username": "user", "height": "180","weight": "75","gender": "male", "target": "fat loss","interests": ["crossfit"]}
+    response = test_app.put(url="/users", json=data)
+    assert response.status_code == 200
+    assert response.json() == {
+        "email": "t@gmail.com",
+        "username": "user",
+        "height": 180,
+        "weight": 75,
+        "gender": "male",
+        "target": "fat loss",
+        "interests": ["crossfit"]
+    }
