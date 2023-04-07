@@ -109,7 +109,7 @@ jobs:
           token: ${{ secrets.OKTETO_TOKEN }}
 
       - name: Create namespace
-        uses: okteto/create-franco-jyq@latest
+        uses: okteto/create-namespace@latest
         with:
           namespace: pr-${{ github.event.number }}-franco-jyq
 
