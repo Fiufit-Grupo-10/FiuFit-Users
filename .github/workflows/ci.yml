@@ -107,6 +107,11 @@ jobs:
       - uses: okteto/context@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
+          
+      - name: "Activate personal namespace"
+        uses: okteto/namespace@master
+        with:
+          name: franco-jyq
     
       - name: "Create deployment"
         uses: okteto/apply@master
