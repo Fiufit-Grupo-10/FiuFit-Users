@@ -103,8 +103,7 @@ jobs:
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
 
-      - name: Okteto login
-      - uses: okteto/login@latest
+      - uses: okteto/context@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
 
