@@ -102,19 +102,3 @@ jobs:
           token: ${{secrets.CODECOV_TOKEN}}  # set in repository settings
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
-
-
-      - uses: okteto/context@latest
-        with:
-          token: ${{ secrets.OKTETO_TOKEN }}
-          
-      - name: "Activate personal namespace"
-        uses: okteto/namespace@master
-        with:
-          name: franco-jyq
-    
-      - name: "Create deployment"
-        uses: okteto/apply@master
-        with:
-          manifest: docker-compose.yaml
-  
