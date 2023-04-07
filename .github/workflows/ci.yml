@@ -112,16 +112,11 @@ jobs:
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
 
-      - name: Create namespace
-        uses: okteto/create-namespace@latest
-        with:
-          namespace: pr-${{ github.event.number }}-franco-jyq
-
       - name: Deploy preview environment
         uses: okteto/deploy-preview@latest
         with:
           scope: global
-          name: pr-${{ github.event.number }}-franco-jyq
+          name: franco-jyq
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
