@@ -107,9 +107,6 @@ jobs:
       - uses: okteto/login@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-    
-      - uses: okteto/namespace@latest
-        name: fiufit-users
 
       - name: "Deploy the preview environment"
         uses: okteto/deploy-preview@latest
