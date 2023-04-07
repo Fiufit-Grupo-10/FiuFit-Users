@@ -103,4 +103,11 @@ jobs:
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
 
+
+      - uses: okteto/context@latest
+        with:
+          token: ${{ secrets.OKTETO_TOKEN }}
+    
+      - name: "Build"
+        uses: okteto/build@latest
   
