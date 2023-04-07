@@ -107,7 +107,7 @@ jobs:
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
 
-      - name: "Deploy the preview environment"
+      - name: "Deploy the preview environment :"
         uses: okteto/deploy-preview@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
