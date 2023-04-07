@@ -103,27 +103,25 @@ jobs:
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
 
+        
 
       - name: checkout
         uses: actions/checkout@master
-      
+
       - name: Context
         uses: okteto/context@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
 
+      - name: Create namespace
+        uses: okteto/create-namespace@latest
+        with:
+          namespace: pr-${{ github.event.number }}-franco-jyq
+
       - name: Deploy preview environment
         uses: okteto/deploy-preview@latest
         with:
           scope: global
-          name: franco-jyq
+          name: pr-${{ github.event.number }}-franco-jyq
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-          
-
-
-
-
-  
-
