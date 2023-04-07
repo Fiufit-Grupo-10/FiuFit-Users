@@ -103,6 +103,10 @@ jobs:
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
 
+
+      - name: checkout
+        uses: actions/checkout@master
+      
       - name: Context
         uses: okteto/context@latest
         with:
