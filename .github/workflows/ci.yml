@@ -102,6 +102,23 @@ jobs:
           token: ${{secrets.CODECOV_TOKEN}}  # set in repository settings
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
+          
+          
+      - name: Okteto login
+      - uses: okteto/login@latest
+        with:
+          token: ${{ secrets.OKTETO_TOKEN }}
+    
+      - uses: okteto/namespace@latest
+        name: fiufit-users
+
+      - name: "Deploy the preview environment"
+        uses: okteto/deploy-preview@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: dev-previews-fiufit-users
+
 
   
 
