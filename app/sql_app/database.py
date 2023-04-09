@@ -3,14 +3,14 @@ import os
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
-#from sqlalchemy.schema import CreateSchema
+
+# from sqlalchemy.schema import CreateSchema
 
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
-#engine.execute(CreateSchema('users'))
+# engine.execute(CreateSchema('users'))
 metadata = MetaData(schema="users")
-
 
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

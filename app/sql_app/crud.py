@@ -3,7 +3,7 @@ from . import models, schemas
 
 
 def create_user(db: Session, user: schemas.User) -> models.User:
-    new_user = models.User(uid=user.uid,email=user.email, username=user.username)
+    new_user = models.User(uid=user.uid, email=user.email, username=user.username)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -35,8 +35,9 @@ def add_user_interests(db: Session, user: schemas.User):
         db.add(models.UserInterest(user=user.username, interest=interest))
         db.commit()
 
-def get_user(db: Session,user_id: str) -> models.User:
-    return db.query(models.User).filter(models.User.uid == user_id).first() 
+
+def get_user(db: Session, user_id: str) -> models.User:
+    return db.query(models.User).filter(models.User.uid == user_id).first()
 
 
 def get_interests(db: Session):
