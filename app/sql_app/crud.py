@@ -37,3 +37,7 @@ def add_user_interests(db: Session, user: schemas.User):
 
 def get_user(db: Session,user_id: str) -> models.User:
     return db.query(models.User).filter(models.User.uid == user_id).first() 
+
+
+def get_interests(db: Session):
+    return db.query(models.Interest).all()
