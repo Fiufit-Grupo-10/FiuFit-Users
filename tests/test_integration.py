@@ -6,6 +6,10 @@ def test_post(test_app):
         "uid": "10",
         "email": "t@gmail.com",
         "username": "user",
+        "birthday": None,
+        "level": None,
+        "latitude": None,
+        "longitude": None,
         "height": None,
         "weight": None,
         "gender": None,
@@ -15,7 +19,19 @@ def test_post(test_app):
 
 
 def test_put(test_app):
-    data = {"uid": "10","email": "t@gmail.com","username": "user", "height": "180","weight": "75","gender": "male", "target": "fat loss","interests": ["Cardio","Fuerza"]}
+    data = {"uid": "10",
+            "email": "t@gmail.com",
+            "username": "user",
+            "height": "180",
+            "weight": "75",
+            "gender": "male",
+            "target": "fat loss",
+            "interests": ["Cardio","Fuerza"],
+            "birthday": "21-12-1999",
+            "level": "pro", 
+            "latitude": "100",
+            "longitude": "100"
+        }
     response = test_app.put(url="/users", json=data)
     assert response.status_code == 200
     assert response.json() == {
@@ -26,7 +42,11 @@ def test_put(test_app):
         "weight": 75,
         "gender": "male",
         "target": "fat loss",
-        "interests": ["Cardio","Fuerza"]
+        "interests": ["Cardio","Fuerza"],
+        "birthday": "21-12-1999",
+        "level": "pro", 
+        "latitude": "100",
+        "longitude": "100"
     }
 
 
@@ -41,5 +61,9 @@ def test_get(test_app):
         "weight": 75,
         "gender": "male",
         "target": "fat loss",
-        "interests": ["Cardio","Fuerza"]
+        "interests": ["Cardio","Fuerza"],
+        "birthday": "21-12-1999",
+        "level": "pro", 
+        "latitude": "100",
+        "longitude": "100"
     }    

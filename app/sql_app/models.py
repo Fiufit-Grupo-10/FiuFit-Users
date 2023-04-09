@@ -10,10 +10,16 @@ class User(Base):
     uid = Column(String,unique = True, primary_key = True, index= True)
     email = Column(String, unique=True,index=True)
     username = Column(String, unique=True, index=True)
+    birthday = Column(String, nullable = True) # Fix type
     height = Column(Integer, nullable=True)
     weight = Column(Integer, nullable=True)
     gender = Column(String, nullable=True)
     target = Column(String, nullable=True)
+    level = Column(String,nullable = True)
+    latitude = Column(String,nullable = True)
+    longitude = Column(String,nullable = True)
+
+    
 
     interests = relationship("UserInterest", back_populates="owner")
 

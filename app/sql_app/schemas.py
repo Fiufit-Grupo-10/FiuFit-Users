@@ -19,6 +19,10 @@ class UserBase(BaseModel):
     uid : str       
     email: str
     username: str
+    birthday : str | None
+    level: str | None
+    latitude: str | None
+    longitude: str | None
     height: int | None = None  # cm
     weight: int | None = None  # kg
     gender: str | None = None

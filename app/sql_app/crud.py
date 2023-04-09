@@ -20,6 +20,10 @@ def update_user(db: Session, user: schemas.User) -> models.User:
         old_user.weight = user.weight
         old_user.gender = user.gender
         old_user.target = user.target
+        old_user.birthday = user.birthday
+        old_user.level = user.level
+        old_user.latitude = user.latitude
+        old_user.longitude = user.longitude
         db.commit()
         add_user_interests(db, user)
         db.refresh(old_user)
