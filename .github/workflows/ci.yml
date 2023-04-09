@@ -97,6 +97,7 @@ jobs:
 
   preview:
     runs-on: ubuntu-latests
+    needs: test
     steps:
     - name: checkout
       uses: actions/checkout@master
