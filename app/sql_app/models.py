@@ -4,11 +4,10 @@ from .database import Base
 
 
 class User(Base):
-    #__table_args__ = {"schema": "users"}
     __tablename__ = "users"
     
 
-    id = Column(String,unique = True, primary_key = True, index= True)
+    uid = Column(String,unique = True, primary_key = True, index= True)
     email = Column(String, unique=True,index=True)
     username = Column(String, unique=True, index=True)
     height = Column(Integer, nullable=True)
@@ -16,20 +15,23 @@ class User(Base):
     gender = Column(String, nullable=True)
     target = Column(String, nullable=True)
 
-    interests = relationship("Interest", back_populates="owner")
+    interests = relationship("UserInterest", back_populates="owner")
 
     
-
-
 class Interest(Base):
-    #__table_args__ = {"schema": "users"}
     __tablename__ = "interests"
+    
+    name = Column(String, primary_key=True, unique = True, index = True)
+    desc = Column(String)
+
+class UserInterest(Base):
+    __tablename__ = "user_interests"
     
 
     user = Column(String, ForeignKey("users.username"), primary_key=True)
-    name = Column(String, primary_key=True)
+    interest = Column(String, ForeignKey("interests.name"), primary_key=True)
 
-    __table_args__ = (PrimaryKeyConstraint("user", "name"),)
+    __table_args__ = (PrimaryKeyConstraint("user", "interest"),)
 
-    owner = relationship("User", back_populates="interests")
+    owner = relationship("User", back_populates="interests")    
     

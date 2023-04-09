@@ -3,13 +3,20 @@ from pydantic import BaseModel, validator
 
 class Interest(BaseModel):
     name: str
+    desc: str
 
     class Config:
         orm_mode = True     
     
+class UserInterest(BaseModel):
+    user: str
+    interest: str
+    
+    class Config:
+        orm_mode = True
 
 class UserBase(BaseModel):
-    id : str
+    uid : str       
     email: str
     username: str
     height: int | None = None  # cm
@@ -29,4 +36,4 @@ class UserCreate(UserBase):
 class User(UserBase):   
     @validator('interests', pre=True)
     def extract_interests_names(cls, v):
-        return [interest.name for interest in v]
+        return [interest.interest for interest in v]
