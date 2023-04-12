@@ -43,3 +43,12 @@ class UserReturn(UserRequest):
     @validator("trainingtypes", pre=True)
     def extract_interests_names(cls, v):
         return [trainingtype.trainingtype for trainingtype in v]
+
+class AdminRequest(UserBase):
+    class Config:
+        orm_mode = True
+
+class AdminResponse(UserBase):
+    uid: str
+    class Config:
+        orm_mode = True

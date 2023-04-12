@@ -96,3 +96,33 @@ def test_get_trainingtypes(test_app):
         {"name": "Spinning", "desc": "Entrenamientos de spinning"},
         {"name": "Cinta", "desc": "Entrenamientos de cinta"},
     ]
+
+
+def test_post_admin(test_app):
+    data = {"email": "admin@gmail.com", "username": "admin"}
+    response = test_app.post(url="/admin/20", json=data)
+    assert response.status_code == 200
+    assert response.json() == {
+        "uid": "20",
+        "email": "admin@gmail.com",
+        "username": "admin",
+    }
+    
+def test_get_admin(test_app):
+    response = test_app.get(url="/admin/20")
+    assert response.status_code == 200
+    assert response.json() == {
+        "uid": "20",
+        "email": "admin@gmail.com",
+        "username": "admin",
+    }
+    
+def test_get_admins(test_app):
+    response = test_app.get(url="/admin")
+    assert response.status_code == 200
+    assert response.json() == [{
+        "uid": "20",
+        "email": "admin@gmail.com",
+        "username": "admin",
+    }]
+    

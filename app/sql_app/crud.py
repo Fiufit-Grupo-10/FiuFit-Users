@@ -43,3 +43,18 @@ def get_user(db: Session, user_id: str) -> models.User:
 
 def get_training_types(db: Session):
     return db.query(models.TrainingType).all()
+
+
+def create_admin(db: Session, admin: schemas.AdminRequest, uid: str) -> models.Admin:
+    new_admin = models.Admin(uid= uid, email=admin.email, username=admin.username)
+    db.add(new_admin)
+    db.commit()
+    db.refresh(new_admin)
+    return new_admin
+
+def get_admin(db: Session, uid: str) -> models.Admin:
+    return db.query(models.Admin).filter(models.Admin.uid == uid).first()
+
+def get_admins(db: Session):
+    return db.query(models.Admin).all()
+
