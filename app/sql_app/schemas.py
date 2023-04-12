@@ -1,7 +1,8 @@
+from datetime import date
 from pydantic import BaseModel, validator
 
 
-class Interest(BaseModel):
+class TrainingType(BaseModel):
     name: str
     desc: str
 
@@ -9,37 +10,36 @@ class Interest(BaseModel):
         orm_mode = True
 
 
-class UserInterest(BaseModel):
+class UserTrainingType(BaseModel):
     user: str
-    interest: str
+    trainingtype: str
 
     class Config:
         orm_mode = True
 
 
 class UserBase(BaseModel):
-    uid: str
     email: str
     username: str
-    birthday: str | None
+
+class UserRequest(UserBase):
+    birthday: date | None
     level: str | None
-    latitude: str | None
-    longitude: str | None
+    latitude: float | None
+    longitude: float | None
     height: int | None = None  # cm
     weight: int | None = None  # kg
     gender: str | None = None
     target: str | None = None
-    interests: list[str] | None = None
+    trainingtypes: list[str] | None = None
+    user_type: str | None
 
     class Config:
         orm_mode = True
 
 
-class UserCreate(UserBase):
-    pass
-
-
-class User(UserBase):
-    @validator("interests", pre=True)
+class UserReturn(UserRequest):
+    uid : str
+    @validator("trainingtypes", pre=True)
     def extract_interests_names(cls, v):
-        return [interest.interest for interest in v]
+        return [trainingtype.trainingtype for trainingtype in v]

@@ -1,6 +1,6 @@
 def test_post_user(test_app):
-    data = {"uid": "10", "email": "t@gmail.com", "username": "user"}
-    response = test_app.post(url="/users", json=data)
+    data = {"email": "t@gmail.com", "username": "user"}
+    response = test_app.post(url="/users/10", json=data)
     assert response.status_code == 200
     assert response.json() == {
         "uid": "10",
@@ -14,26 +14,27 @@ def test_post_user(test_app):
         "weight": None,
         "gender": None,
         "target": None,
-        "interests": [],
+        "trainingtypes": [],
+        "user_type": None
     }
 
 
 def test_put_user(test_app):
     data = {
-        "uid": "10",
         "email": "t@gmail.com",
         "username": "user",
         "height": "180",
         "weight": "75",
-        "gender": "male",
+        "gender": "M",
         "target": "fat loss",
-        "interests": ["Cardio", "Fuerza"],
-        "birthday": "21-12-1999",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
         "level": "pro",
         "latitude": "100",
         "longitude": "100",
+        "user_type": "athlete"
     }
-    response = test_app.put(url="/users", json=data)
+    response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
     assert response.json() == {
         "uid": "10",
@@ -41,13 +42,14 @@ def test_put_user(test_app):
         "username": "user",
         "height": 180,
         "weight": 75,
-        "gender": "male",
+        "gender": "M",
         "target": "fat loss",
-        "interests": ["Cardio", "Fuerza"],
-        "birthday": "21-12-1999",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
         "level": "pro",
-        "latitude": "100",
-        "longitude": "100",
+        "latitude": 100.0,
+        "longitude": 100.0,
+        "user_type": "athlete"
     }
 
 
@@ -60,18 +62,19 @@ def test_get_user(test_app):
         "username": "user",
         "height": 180,
         "weight": 75,
-        "gender": "male",
+        "gender": "M",
         "target": "fat loss",
-        "interests": ["Cardio", "Fuerza"],
-        "birthday": "21-12-1999",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
         "level": "pro",
-        "latitude": "100",
-        "longitude": "100",
+        "latitude": 100.0,
+        "longitude": 100.0,
+        "user_type": "athlete"
     }
 
 
-def test_get_interests(test_app):
-    response = test_app.get(url="/interests")
+def test_get_trainingtypes(test_app):
+    response = test_app.get(url="/trainingtypes")
     assert response.status_code == 200
     assert response.json() == [
         {
@@ -86,7 +89,7 @@ def test_get_interests(test_app):
         },
         {"name": "Baile", "desc": "Entrenamientos con musica"},
         {"name": "Kickboxing", "desc": "Entrenamientos de pelea"},
-        {"name": "Pilaes", "desc": "Entranamientos de pilates"},
+        {"name": "Pilates", "desc": "Entrenamientos de pilates"},
         {"name": "Mediatación", "desc": "Entrenamientos de meditación"},
         {"name": "Estirar", "desc": "Entrenamientos de estiramiento"},
         {"name": "Yoga", "desc": "Entrenamientos de Yoga"},

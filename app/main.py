@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api import users, interests
+from app.api import training_types, users
 from .sql_app.database import engine
 from .sql_app import models
 
@@ -8,4 +8,4 @@ app = FastAPI()
 
 
 app.include_router(users.router)
-app.include_router(interests.router)
+app.include_router(training_types.router)

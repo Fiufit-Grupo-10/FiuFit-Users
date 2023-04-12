@@ -4,9 +4,9 @@ from app.api.dependencies import get_db
 from ..sql_app import crud, schemas
 
 
-router = APIRouter(tags=["interests"])
+router = APIRouter(tags=["trainingtypes"])
 
 
-@router.get("/interests", response_model=list[schemas.Interest])
+@router.get("/trainingtypes", response_model=list[schemas.TrainingType])
 def get_interests(db: Session = Depends(get_db)):
-    return crud.get_interests(db=db)
+    return crud.get_training_types(db=db)
