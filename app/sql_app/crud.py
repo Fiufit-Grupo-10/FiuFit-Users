@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 
-def create_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User:
-    new_user = models.User(uid= uid, email=user.email, username=user.username)
+def create_user(db: Session, user: schemas.UserCreate) -> models.User:
+    new_user = models.User(uid= user.uid, email=user.email, username=user.username)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -45,8 +45,8 @@ def get_training_types(db: Session):
     return db.query(models.TrainingType).all()
 
 
-def create_admin(db: Session, admin: schemas.AdminRequest, uid: str) -> models.Admin:
-    new_admin = models.Admin(uid= uid, email=admin.email, username=admin.username)
+def create_admin(db: Session, admin: schemas.AdminCreate) -> models.Admin:
+    new_admin = models.Admin(uid= admin.uid, email=admin.email, username=admin.username)
     db.add(new_admin)
     db.commit()
     db.refresh(new_admin)

@@ -7,9 +7,9 @@ from ..sql_app import crud, schemas
 router = APIRouter(tags=["users"])
 
 
-@router.post("/users/{user_id}", response_model=schemas.UserReturn)
-def create_user(user: schemas.UserRequest, user_id: str,db: Session = Depends(get_db)):
-    return crud.create_user(db=db, user=user, uid = user_id)
+@router.post("/users", response_model=schemas.UserReturn)
+def create_user(user: schemas.UserCreate,db: Session = Depends(get_db)):
+    return crud.create_user(db=db, user=user)
 
 
 @router.put("/users/{user_id}", response_model=schemas.UserReturn)

@@ -7,9 +7,9 @@ from ..sql_app import crud, schemas
 router = APIRouter(tags=["admins"])
 
 
-@router.post("/admin/{user_id}", response_model=schemas.AdminResponse)
-def create_admin(admin: schemas.AdminRequest, user_id: str,db: Session = Depends(get_db)):
-    return crud.create_admin(db=db, admin = admin, uid = user_id)
+@router.post("/admin", response_model=schemas.AdminResponse)
+def create_admin(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
+    return crud.create_admin(db=db, admin = admin)
 
 
 @router.get("/admin", response_model= list[schemas.AdminResponse])

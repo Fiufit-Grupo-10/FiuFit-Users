@@ -1,6 +1,6 @@
 def test_post_user(test_app):
-    data = {"email": "t@gmail.com", "username": "user"}
-    response = test_app.post(url="/users/10", json=data)
+    data = {"uid" : "10","email": "t@gmail.com", "username": "user"}
+    response = test_app.post(url="/users", json=data)
     assert response.status_code == 200
     assert response.json() == {
         "uid": "10",
@@ -99,8 +99,8 @@ def test_get_trainingtypes(test_app):
 
 
 def test_post_admin(test_app):
-    data = {"email": "admin@gmail.com", "username": "admin"}
-    response = test_app.post(url="/admin/20", json=data)
+    data = {"uid": "20","email": "admin@gmail.com", "username": "admin"}
+    response = test_app.post(url="/admin", json=data)
     assert response.status_code == 200
     assert response.json() == {
         "uid": "20",
