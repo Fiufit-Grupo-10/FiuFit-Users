@@ -35,16 +35,16 @@ class TrainingType(Base):
     __tablename__ = "trainingtypes"
 
     name = Column(String(length=50), primary_key=True, unique=True, index=True)
-    desc = Column(Text)
+    descr = Column(Text)
 
 
 class UserTrainingType(Base):
     __tablename__ = "user_trainingtype"
 
-    user = Column(String, ForeignKey("users.username"), primary_key=True)
+    username = Column(String, ForeignKey("users.username"), primary_key=True)
     trainingtype = Column(String, ForeignKey("trainingtypes.name"), primary_key=True)
 
-    __table_args__ = (PrimaryKeyConstraint("user", "trainingtype"),)
+    __table_args__ = (PrimaryKeyConstraint("username", "trainingtype"),)
 
     owner = relationship("User", back_populates="trainingtypes")
 

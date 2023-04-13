@@ -29,13 +29,13 @@ def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User
 
 def update_user_training_types(db: Session, user: schemas.UserRequest):
     rows_to_delete = (
-        db.query(models.UserTrainingType).filter_by(user=user.username).all()
+        db.query(models.UserTrainingType).filter_by(username=user.username).all()
     )
     for row in rows_to_delete:
         db.delete(row)
     db.commit()
     for trainingtype in user.trainingtypes:
-        db.add(models.UserTrainingType(user=user.username, trainingtype=trainingtype))
+        db.add(models.UserTrainingType(username=user.username, trainingtype=trainingtype))
         db.commit()
 
 

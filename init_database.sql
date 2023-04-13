@@ -1,31 +1,31 @@
 CREATE TABLE users (
-    uid VARCHAR(50) PRIMARY KEY,
+    uid VARCHAR(50) UNIQUE PRIMARY KEY,
     email VARCHAR(100) UNIQUE,
     username VARCHAR(50) UNIQUE,
     birthday DATE,
     height INTEGER,
     weight INTEGER,
-    gender CHAR(1),
+    gender VARCHAR(1),
     target VARCHAR,
     level VARCHAR,
-    latitude DECIMAL(9,6),
-    longitude DECIMAL(9,6),
+    latitude DECIMAL(9, 6),
+    longitude DECIMAL(9, 6),
     user_type VARCHAR(7)
 );
 
 CREATE TABLE trainingtypes (
-    name VARCHAR(50) PRIMARY KEY,
-    desc TEXT
+    name VARCHAR(50) PRIMARY KEY UNIQUE,
+    descr TEXT
 );
 
 CREATE TABLE user_trainingtype (
-    user VARCHAR REFERENCES users(username),
+    username VARCHAR REFERENCES users(username),
     trainingtype VARCHAR REFERENCES trainingtypes(name),
-    PRIMARY KEY(user, trainingtype)
+    PRIMARY KEY (username, trainingtype)
 );
 
 CREATE TABLE admins (
-    uid VARCHAR(50) PRIMARY KEY,
+    uid VARCHAR(50) UNIQUE PRIMARY KEY,
     email VARCHAR(100) UNIQUE,
     username VARCHAR(50) UNIQUE
 );

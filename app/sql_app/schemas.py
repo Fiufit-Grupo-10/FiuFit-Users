@@ -4,14 +4,14 @@ from pydantic import BaseModel, validator
 
 class TrainingType(BaseModel):
     name: str
-    desc: str
+    descr: str
 
     class Config:
         orm_mode = True
 
 
 class UserTrainingType(BaseModel):
-    user: str
+    username: str
     trainingtype: str
 
     class Config:
