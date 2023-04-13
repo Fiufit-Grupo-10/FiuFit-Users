@@ -91,7 +91,7 @@ jobs:
         env:
           PGPASSWORD: fiufitpass 
         run: |
-          psql -h localhost -U fiufit -d fiufit_users_dev -w -c "INSERT INTO trainingtypes VALUES ('Cardio','Entrenamientos relacionados a la resistencia aerobica'), ('Fuerza','Entrenamientos relacionados a ganar fuerza');"
+          psql -h localhost -U fiufit -d fiufit_users_dev -w -f init_database.sql
 
       - name: Run tests
         env:
