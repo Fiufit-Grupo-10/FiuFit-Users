@@ -3,7 +3,7 @@ from . import models, schemas
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:
-    new_user = models.User(uid= user.uid, email=user.email, username=user.username)
+    new_user = models.User(uid=user.uid, email=user.email, username=user.username)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -11,7 +11,7 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
 
 
 def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User:
-    old_user = get_user(db,uid)
+    old_user = get_user(db, uid)
     old_user.height = user.height
     old_user.weight = user.weight
     old_user.gender = user.gender
@@ -28,7 +28,9 @@ def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User
 
 
 def update_user_training_types(db: Session, user: schemas.UserRequest):
-    rows_to_delete = db.query(models.UserTrainingType).filter_by(user=user.username).all()
+    rows_to_delete = (
+        db.query(models.UserTrainingType).filter_by(user=user.username).all()
+    )
     for row in rows_to_delete:
         db.delete(row)
     db.commit()
@@ -46,15 +48,16 @@ def get_training_types(db: Session):
 
 
 def create_admin(db: Session, admin: schemas.AdminCreate) -> models.Admin:
-    new_admin = models.Admin(uid= admin.uid, email=admin.email, username=admin.username)
+    new_admin = models.Admin(uid=admin.uid, email=admin.email, username=admin.username)
     db.add(new_admin)
     db.commit()
     db.refresh(new_admin)
     return new_admin
 
+
 def get_admin(db: Session, uid: str) -> models.Admin:
     return db.query(models.Admin).filter(models.Admin.uid == uid).first()
 
+
 def get_admins(db: Session):
     return db.query(models.Admin).all()
-

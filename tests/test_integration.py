@@ -1,5 +1,5 @@
 def test_post_user(test_app):
-    data = {"uid" : "10","email": "t@gmail.com", "username": "user"}
+    data = {"uid": "10", "email": "t@gmail.com", "username": "user"}
     response = test_app.post(url="/users", json=data)
     assert response.status_code == 200
     assert response.json() == {
@@ -15,7 +15,7 @@ def test_post_user(test_app):
         "gender": None,
         "target": None,
         "trainingtypes": [],
-        "user_type": None
+        "user_type": None,
     }
 
 
@@ -32,7 +32,7 @@ def test_put_user(test_app):
         "level": "pro",
         "latitude": "100",
         "longitude": "100",
-        "user_type": "athlete"
+        "user_type": "athlete",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -49,7 +49,7 @@ def test_put_user(test_app):
         "level": "pro",
         "latitude": 100.0,
         "longitude": 100.0,
-        "user_type": "athlete"
+        "user_type": "athlete",
     }
 
 
@@ -69,7 +69,7 @@ def test_get_user(test_app):
         "level": "pro",
         "latitude": 100.0,
         "longitude": 100.0,
-        "user_type": "athlete"
+        "user_type": "athlete",
     }
 
 
@@ -99,7 +99,7 @@ def test_get_trainingtypes(test_app):
 
 
 def test_post_admin(test_app):
-    data = {"uid": "20","email": "admin@gmail.com", "username": "admin"}
+    data = {"uid": "20", "email": "admin@gmail.com", "username": "admin"}
     response = test_app.post(url="/admin", json=data)
     assert response.status_code == 200
     assert response.json() == {
@@ -107,7 +107,8 @@ def test_post_admin(test_app):
         "email": "admin@gmail.com",
         "username": "admin",
     }
-    
+
+
 def test_get_admin(test_app):
     response = test_app.get(url="/admin/20")
     assert response.status_code == 200
@@ -116,13 +117,15 @@ def test_get_admin(test_app):
         "email": "admin@gmail.com",
         "username": "admin",
     }
-    
+
+
 def test_get_admins(test_app):
     response = test_app.get(url="/admin")
     assert response.status_code == 200
-    assert response.json() == [{
-        "uid": "20",
-        "email": "admin@gmail.com",
-        "username": "admin",
-    }]
-    
+    assert response.json() == [
+        {
+            "uid": "20",
+            "email": "admin@gmail.com",
+            "username": "admin",
+        }
+    ]

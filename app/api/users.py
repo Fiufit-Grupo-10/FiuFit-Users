@@ -8,13 +8,13 @@ router = APIRouter(tags=["users"])
 
 
 @router.post("/users", response_model=schemas.UserReturn)
-def create_user(user: schemas.UserCreate,db: Session = Depends(get_db)):
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
 @router.put("/users/{user_id}", response_model=schemas.UserReturn)
 def update_user(user: schemas.UserRequest, user_id: str, db: Session = Depends(get_db)):
-    return crud.update_user(db=db, user=user,uid=user_id)
+    return crud.update_user(db=db, user=user, uid=user_id)
 
 
 @router.get("/users/{user_id}", response_model=schemas.UserReturn)

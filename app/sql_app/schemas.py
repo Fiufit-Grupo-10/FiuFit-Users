@@ -22,6 +22,7 @@ class UserBase(BaseModel):
     email: str
     username: str
 
+
 class UserRequest(UserBase):
     birthday: date | None
     level: str | None
@@ -37,23 +38,28 @@ class UserRequest(UserBase):
     class Config:
         orm_mode = True
 
+
 class UserCreate(UserRequest):
-    uid : str
-    
+    uid: str
+
 
 class UserReturn(UserCreate):
     @validator("trainingtypes", pre=True)
     def extract_interests_names(cls, v):
         return [trainingtype.trainingtype for trainingtype in v]
 
+
 class AdminRequest(UserBase):
     class Config:
         orm_mode = True
 
+
 class AdminResponse(UserBase):
     uid: str
+
     class Config:
         orm_mode = True
-        
+
+
 class AdminCreate(AdminResponse):
     pass
