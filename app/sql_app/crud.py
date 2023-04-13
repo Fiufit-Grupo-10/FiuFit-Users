@@ -35,7 +35,9 @@ def update_user_training_types(db: Session, user: schemas.UserRequest):
         db.delete(row)
     db.commit()
     for trainingtype in user.trainingtypes:
-        db.add(models.UserTrainingType(username=user.username, trainingtype=trainingtype))
+        db.add(
+            models.UserTrainingType(username=user.username, trainingtype=trainingtype)
+        )
         db.commit()
 
 
