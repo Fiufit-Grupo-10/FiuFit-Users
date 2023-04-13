@@ -88,7 +88,7 @@ jobs:
       - name: Run flake
         run:  poetry run flake8 'app' --max-line-length 100      
       - name: Insert data into database
-      - run: |
+        run: |
           psql -h localhost -U fiufit -d fiufit_users_dev -c "INSERT INTO trainingtypes VALUES ('Cardio','Entrenamientos relacionados a la resistencia aerobica'), ('Fuerza','Entrenamientos relacionados a ganar fuerza');"
 
       - name: Run tests
