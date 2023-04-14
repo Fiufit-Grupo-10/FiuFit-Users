@@ -1,2 +1,1 @@
-manifest:
-  - docker-compose-dep.yml
+manifest: docker-compose-dep.yml
