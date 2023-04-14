@@ -100,7 +100,7 @@ def test_get_trainingtypes(test_app):
 
 def test_post_admin(test_app):
     data = {"uid": "20", "email": "admin@gmail.com", "username": "admin"}
-    response = test_app.post(url="/admin", json=data)
+    response = test_app.post(url="/admins", json=data)
     assert response.status_code == 200
     assert response.json() == {
         "uid": "20",
@@ -110,7 +110,7 @@ def test_post_admin(test_app):
 
 
 def test_get_admin(test_app):
-    response = test_app.get(url="/admin/20")
+    response = test_app.get(url="/admins/20")
     assert response.status_code == 200
     assert response.json() == {
         "uid": "20",
@@ -120,7 +120,7 @@ def test_get_admin(test_app):
 
 
 def test_get_admins(test_app):
-    response = test_app.get(url="/admin")
+    response = test_app.get(url="/admins")
     assert response.status_code == 200
     assert response.json() == [
         {

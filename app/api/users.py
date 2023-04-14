@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.api.dependencies import get_db
 from ..sql_app import crud, schemas
@@ -14,9 +14,14 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @router.put("/users/{user_id}", response_model=schemas.UserReturn)
 def update_user(user: schemas.UserRequest, user_id: str, db: Session = Depends(get_db)):
+    if crud.get_user(db=db, user_id=user_id) is None:
+        raise HTTPException(status_code=404, detail="User not found")
     return crud.update_user(db=db, user=user, uid=user_id)
 
 
 @router.get("/users/{user_id}", response_model=schemas.UserReturn)
 def get_user(user_id: str, db: Session = Depends(get_db)):
-    return crud.get_user(db=db, user_id=user_id)
+    user = crud.get_user(db=db, user_id=user_id)
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
