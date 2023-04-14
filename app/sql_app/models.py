@@ -4,7 +4,6 @@ from sqlalchemy import (
     PrimaryKeyConstraint,
     String,
     ForeignKey,
-    DECIMAL,
     Date,
     Text,
 )
@@ -24,8 +23,8 @@ class User(Base):
     gender = Column(String(length=1), nullable=True)
     target = Column(String, nullable=True)
     level = Column(String, nullable=True)
-    latitude = Column(DECIMAL(9, 6), nullable=True)
-    longitude = Column(DECIMAL(9, 6), nullable=True)
+    latitude = Column(Integer, nullable=True)
+    longitude = Column(Integer, nullable=True)
     user_type = Column(String(length=7), nullable=True)
 
     trainingtypes = relationship("UserTrainingType", back_populates="owner")

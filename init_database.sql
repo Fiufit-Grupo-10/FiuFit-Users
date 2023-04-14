@@ -8,8 +8,8 @@ CREATE TABLE users (
     gender VARCHAR(1),
     target VARCHAR,
     level VARCHAR,
-    latitude DECIMAL(9, 6),
-    longitude DECIMAL(9, 6),
+    latitude INTEGER,
+    longitude INTEGER,
     user_type VARCHAR(7)
 );
 

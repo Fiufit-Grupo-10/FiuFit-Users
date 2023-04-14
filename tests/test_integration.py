@@ -47,8 +47,8 @@ def test_put_user(test_app):
         "trainingtypes": ["Cardio", "Fuerza"],
         "birthday": "1999-12-21",
         "level": "pro",
-        "latitude": 100.0,
-        "longitude": 100.0,
+        "latitude": 100,
+        "longitude": 100,
         "user_type": "athlete",
     }
 
@@ -67,8 +67,8 @@ def test_get_user(test_app):
         "trainingtypes": ["Cardio", "Fuerza"],
         "birthday": "1999-12-21",
         "level": "pro",
-        "latitude": 100.0,
-        "longitude": 100.0,
+        "latitude": 100,
+        "longitude": 100,
         "user_type": "athlete",
     }
 

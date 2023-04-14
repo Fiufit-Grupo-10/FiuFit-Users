@@ -26,8 +26,8 @@ class UserBase(BaseModel):
 class UserRequest(UserBase):
     birthday: date | None
     level: str | None
-    latitude: float | None
-    longitude: float | None
+    latitude: int | None
+    longitude: int | None
     height: int | None = None  # cm
     weight: int | None = None  # kg
     gender: str | None = None
