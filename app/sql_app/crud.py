@@ -1,4 +1,3 @@
-import re
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -13,13 +12,14 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
         db.refresh(new_user)
         return new_user
     except IntegrityError as e:
-        raise_integrity_error(e,uid = user.uid, username = user.username, email = user.email, type = "User")
-    
+        raise_integrity_error(
+            e, uid=user.uid, username=user.username, email=user.email, type="User"
+        )
 
 
 def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User:
     old_user = get_user(db, uid)
-    update_user_training_types(db, user)    
+    update_user_training_types(db, user)
     old_user.height = user.height
     old_user.weight = user.weight
     old_user.gender = user.gender
@@ -48,14 +48,18 @@ def update_user_training_types(db: Session, user: schemas.UserRequest):
         db.commit()
     except IntegrityError:
         db.rollback()
-        raise HTTPException(status_code=404, detail=f"TrainingType {trainingtype} not found") 
-    
+        raise HTTPException(
+            status_code=404, detail=f"TrainingType {trainingtype} not found"
+        )
+
 
 def get_user(db: Session, user_id: str) -> models.User:
     return db.query(models.User).filter(models.User.uid == user_id).first()
 
+
 def get_users(db: Session):
     return db.query(models.User).all()
+
 
 def get_training_types(db: Session):
     return db.query(models.TrainingType).all()
@@ -63,13 +67,17 @@ def get_training_types(db: Session):
 
 def create_admin(db: Session, admin: schemas.AdminCreate) -> models.Admin:
     try:
-        new_admin = models.Admin(uid=admin.uid, email=admin.email, username=admin.username)
+        new_admin = models.Admin(
+            uid=admin.uid, email=admin.email, username=admin.username
+        )
         db.add(new_admin)
         db.commit()
         db.refresh(new_admin)
         return new_admin
     except IntegrityError as e:
-        raise_integrity_error(e,uid = admin.uid, username = admin.username, email = admin.email, type = "Admin")
+        raise_integrity_error(
+            e, uid=admin.uid, username=admin.username, email=admin.email, type="Admin"
+        )
 
 
 def get_admin(db: Session, uid: str) -> models.Admin:
@@ -80,11 +88,17 @@ def get_admins(db: Session):
     return db.query(models.Admin).all()
 
 
-def raise_integrity_error(e: IntegrityError,uid: int | None,username: str | None,email: str | None,type: str):
+def raise_integrity_error(
+    e: IntegrityError,
+    uid: int | None,
+    username: str | None,
+    email: str | None,
+    type: str,
+):
     if "uid" in str(e.orig.args):
-            detail = f"{type} with uid: {uid} already exists"
+        detail = f"{type} with uid: {uid} already exists"
     elif "username" in str(e.orig.args):
         detail = f"{type} with username: {username} already exists"
     else:
-        detail = f"{type} with email: {email} already exists"                    
-    raise HTTPException(status_code=409, detail=detail)    
+        detail = f"{type} with email: {email} already exists"
+    raise HTTPException(status_code=409, detail=detail)

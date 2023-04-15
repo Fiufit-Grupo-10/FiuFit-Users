@@ -18,30 +18,28 @@ def test_post_user(test_app):
         "user_type": None,
     }
 
+
 def test_post_user_uid_fail(test_app):
     data = {"uid": "10", "email": "t2@gmail.com", "username": "user2"}
     response = test_app.post(url="/users", json=data)
     assert response.status_code == 409
-    assert response.json() == {
-        "detail": "User with uid: 10 already exists"
-    }
+    assert response.json() == {"detail": "User with uid: 10 already exists"}
+
 
 def test_post_user_username_fail(test_app):
     data = {"uid": "11", "email": "t2@gmail.com", "username": "user"}
     response = test_app.post(url="/users", json=data)
     assert response.status_code == 409
-    assert response.json() == {
-        "detail": "User with username: user already exists"
-    }
-    
+    assert response.json() == {"detail": "User with username: user already exists"}
+
+
 def test_post_user_email_fail(test_app):
     data = {"uid": "11", "email": "t@gmail.com", "username": "user2"}
     response = test_app.post(url="/users", json=data)
     assert response.status_code == 409
-    assert response.json() == {
-        "detail": "User with email: t@gmail.com already exists"
-    }
-    
+    assert response.json() == {"detail": "User with email: t@gmail.com already exists"}
+
+
 def test_put_user_trainingtype_fail(test_app):
     data = {
         "email": "t@gmail.com",
@@ -59,9 +57,8 @@ def test_put_user_trainingtype_fail(test_app):
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 404
-    assert response.json() == {
-        "detail" : "TrainingType crossfit not found"
-    }
+    assert response.json() == {"detail": "TrainingType crossfit not found"}
+
 
 def test_put_user(test_app):
     data = {
@@ -95,8 +92,6 @@ def test_put_user(test_app):
         "longitude": 100,
         "user_type": "athlete",
     }
-    
-
 
 
 def test_get_user(test_app):
@@ -118,31 +113,34 @@ def test_get_user(test_app):
         "user_type": "athlete",
     }
 
+
 def test_get_users(test_app):
     response = test_app.get(url="/users")
     assert response.status_code == 200
-    assert response.json() == [{
-        "uid": "10",
-        "email": "t@gmail.com",
-        "username": "user",
-        "height": 180,
-        "weight": 75,
-        "gender": "M",
-        "target": "fat loss",
-        "trainingtypes": ["Cardio", "Fuerza"],
-        "birthday": "1999-12-21",
-        "level": "pro",
-        "latitude": 100,
-        "longitude": 100,
-        "user_type": "athlete",
-    }]
+    assert response.json() == [
+        {
+            "uid": "10",
+            "email": "t@gmail.com",
+            "username": "user",
+            "height": 180,
+            "weight": 75,
+            "gender": "M",
+            "target": "fat loss",
+            "trainingtypes": ["Cardio", "Fuerza"],
+            "birthday": "1999-12-21",
+            "level": "pro",
+            "latitude": 100,
+            "longitude": 100,
+            "user_type": "athlete",
+        }
+    ]
+
 
 def test_get_user_fail(test_app):
     response = test_app.get(url="/users/25")
     assert response.status_code == 404
-    assert response.json() == {
-        "detail": "User 25 not found" 
-    }
+    assert response.json() == {"detail": "User 25 not found"}
+
 
 def test_get_trainingtypes(test_app):
     response = test_app.get(url="/trainingtypes")
@@ -178,23 +176,22 @@ def test_post_admin(test_app):
         "email": "admin@gmail.com",
         "username": "admin",
     }
-    
+
+
 def test_post_admin_uid_fail(test_app):
     data = {"uid": "20", "email": "admin2@gmail.com", "username": "admin2"}
     response = test_app.post(url="/admins", json=data)
     assert response.status_code == 409
-    assert response.json() == {
-        "detail": "Admin with uid: 20 already exists"
-    }
-    
+    assert response.json() == {"detail": "Admin with uid: 20 already exists"}
+
+
 def test_post_admin_username_fail(test_app):
     data = {"uid": "21", "email": "admin2@gmail.com", "username": "admin"}
     response = test_app.post(url="/admins", json=data)
     assert response.status_code == 409
-    assert response.json() == {
-        "detail": "Admin with username: admin already exists"
-    }
-    
+    assert response.json() == {"detail": "Admin with username: admin already exists"}
+
+
 def test_post_admin_email_fail(test_app):
     data = {"uid": "21", "email": "admin@gmail.com", "username": "admin2"}
     response = test_app.post(url="/admins", json=data)
@@ -212,13 +209,12 @@ def test_get_admin(test_app):
         "email": "admin@gmail.com",
         "username": "admin",
     }
-    
+
+
 def test_get_admin_fail(test_app):
     response = test_app.get(url="/admins/25")
     assert response.status_code == 404
-    assert response.json() == {
-        "detail": "Admin 25 not found" 
-    }
+    assert response.json() == {"detail": "Admin 25 not found"}
 
 
 def test_get_admins(test_app):

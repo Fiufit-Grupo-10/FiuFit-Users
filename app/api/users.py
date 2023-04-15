@@ -28,6 +28,7 @@ def get_user(user_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail=detail)
     return user
 
-@router.get("/users", response_model= list[schemas.UserReturn])
+
+@router.get("/users", response_model=list[schemas.UserReturn])
 def get_users(db: Session = Depends(get_db)):
     return crud.get_users(db=db)
