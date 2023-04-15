@@ -4,7 +4,7 @@ RUN mkdir app
 
 WORKDIR /app
 
-COPY /pyproject.toml /app
+COPY pyproject.toml/ .
 
 RUN pip3 install poetry
 
