@@ -18,6 +18,31 @@ def test_post_user(test_app):
         "user_type": None,
     }
 
+def test_post_user_uid_fail(test_app):
+    data = {"uid": "10", "email": "t2@gmail.com", "username": "user2"}
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 409
+    assert response.json() == {
+        "detail": "User with uid: 10 already exists"
+    }
+
+def test_post_user_username_fail(test_app):
+    data = {"uid": "11", "email": "t2@gmail.com", "username": "user"}
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 409
+    assert response.json() == {
+        "detail": "User with username: user already exists"
+    }
+    
+def test_post_user_email_fail(test_app):
+    data = {"uid": "11", "email": "t@gmail.com", "username": "user2"}
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 409
+    assert response.json() == {
+        "detail": "User with email: t@gmail.com already exists"
+    }
+    
+
 
 def test_put_user(test_app):
     data = {
@@ -131,6 +156,30 @@ def test_post_admin(test_app):
         "uid": "20",
         "email": "admin@gmail.com",
         "username": "admin",
+    }
+    
+def test_post_admin_uid_fail(test_app):
+    data = {"uid": "20", "email": "admin2@gmail.com", "username": "admin2"}
+    response = test_app.post(url="/admins", json=data)
+    assert response.status_code == 409
+    assert response.json() == {
+        "detail": "Admin with uid: 20 already exists"
+    }
+    
+def test_post_admin_username_fail(test_app):
+    data = {"uid": "21", "email": "admin2@gmail.com", "username": "admin"}
+    response = test_app.post(url="/admins", json=data)
+    assert response.status_code == 409
+    assert response.json() == {
+        "detail": "Admin with username: admin already exists"
+    }
+    
+def test_post_admin_email_fail(test_app):
+    data = {"uid": "21", "email": "admin@gmail.com", "username": "admin2"}
+    response = test_app.post(url="/admins", json=data)
+    assert response.status_code == 409
+    assert response.json() == {
+        "detail": "Admin with email: admin@gmail.com already exists"
     }
 
 
