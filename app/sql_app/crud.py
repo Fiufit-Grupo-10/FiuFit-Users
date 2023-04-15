@@ -44,6 +44,8 @@ def update_user_training_types(db: Session, user: schemas.UserRequest):
 def get_user(db: Session, user_id: str) -> models.User:
     return db.query(models.User).filter(models.User.uid == user_id).first()
 
+def get_users(db: Session):
+    return db.query(models.User).all()
 
 def get_training_types(db: Session):
     return db.query(models.TrainingType).all()

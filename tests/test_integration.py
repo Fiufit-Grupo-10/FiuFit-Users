@@ -72,6 +72,25 @@ def test_get_user(test_app):
         "user_type": "athlete",
     }
 
+def test_get_user(test_app):
+    response = test_app.get(url="/users/10")
+    assert response.status_code == 200
+    assert response.json() == [{
+        "uid": "10",
+        "email": "t@gmail.com",
+        "username": "user",
+        "height": 180,
+        "weight": 75,
+        "gender": "M",
+        "target": "fat loss",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
+        "level": "pro",
+        "latitude": 100,
+        "longitude": 100,
+        "user_type": "athlete",
+    }]
+
 
 def test_get_trainingtypes(test_app):
     response = test_app.get(url="/trainingtypes")
