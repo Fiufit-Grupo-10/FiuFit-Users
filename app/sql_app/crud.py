@@ -19,6 +19,7 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
 
 def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User:
     old_user = get_user(db, uid)
+    update_user_training_types(db, user)    
     old_user.height = user.height
     old_user.weight = user.weight
     old_user.gender = user.gender
@@ -29,7 +30,6 @@ def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User
     old_user.longitude = user.longitude
     old_user.user_type = user.user_type
     db.commit()
-    update_user_training_types(db, user)
     db.refresh(old_user)
     return old_user
 
@@ -40,13 +40,16 @@ def update_user_training_types(db: Session, user: schemas.UserRequest):
     )
     for row in rows_to_delete:
         db.delete(row)
-    db.commit()
     for trainingtype in user.trainingtypes:
         db.add(
             models.UserTrainingType(username=user.username, trainingtype=trainingtype)
         )
+    try:
         db.commit()
-
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=f"TrainingType {trainingtype} not found") 
+    
 
 def get_user(db: Session, user_id: str) -> models.User:
     return db.query(models.User).filter(models.User.uid == user_id).first()
@@ -77,7 +80,7 @@ def get_admins(db: Session):
     return db.query(models.Admin).all()
 
 
-def raise_integrity_error(e: IntegrityError,uid: int,username: str,email: str,type: str):
+def raise_integrity_error(e: IntegrityError,uid: int | None,username: str | None,email: str | None,type: str):
     if "uid" in str(e.orig.args):
             detail = f"{type} with uid: {uid} already exists"
     elif "username" in str(e.orig.args):

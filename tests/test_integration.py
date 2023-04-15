@@ -42,7 +42,26 @@ def test_post_user_email_fail(test_app):
         "detail": "User with email: t@gmail.com already exists"
     }
     
-
+def test_put_user_trainingtype_fail(test_app):
+    data = {
+        "email": "t@gmail.com",
+        "username": "user",
+        "height": "180",
+        "weight": "75",
+        "gender": "M",
+        "target": "fat loss",
+        "trainingtypes": ["crossfit"],
+        "birthday": "1999-12-21",
+        "level": "pro",
+        "latitude": "100",
+        "longitude": "100",
+        "user_type": "athlete",
+    }
+    response = test_app.put(url="/users/10", json=data)
+    assert response.status_code == 404
+    assert response.json() == {
+        "detail" : "TrainingType crossfit not found"
+    }
 
 def test_put_user(test_app):
     data = {
@@ -76,6 +95,8 @@ def test_put_user(test_app):
         "longitude": 100,
         "user_type": "athlete",
     }
+    
+
 
 
 def test_get_user(test_app):
