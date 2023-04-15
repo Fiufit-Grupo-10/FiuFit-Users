@@ -72,8 +72,8 @@ def test_get_user(test_app):
         "user_type": "athlete",
     }
 
-def test_get_user(test_app):
-    response = test_app.get(url="/users/10")
+def test_get_users(test_app):
+    response = test_app.get(url="/users")
     assert response.status_code == 200
     assert response.json() == [{
         "uid": "10",
@@ -91,6 +91,12 @@ def test_get_user(test_app):
         "user_type": "athlete",
     }]
 
+def test_get_user_fail(test_app):
+    response = test_app.get(url="/users/25")
+    assert response.status_code == 404
+    assert response.json() == {
+        "detail": "User 25 not found" 
+    }
 
 def test_get_trainingtypes(test_app):
     response = test_app.get(url="/trainingtypes")
@@ -135,6 +141,13 @@ def test_get_admin(test_app):
         "uid": "20",
         "email": "admin@gmail.com",
         "username": "admin",
+    }
+    
+def test_get_admin_fail(test_app):
+    response = test_app.get(url="/admins/25")
+    assert response.status_code == 404
+    assert response.json() == {
+        "detail": "Admin 25 not found" 
     }
 
 

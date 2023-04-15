@@ -21,5 +21,6 @@ def get_admins(db: Session = Depends(get_db)):
 def get_admin(user_id: str, db: Session = Depends(get_db)):
     admin = crud.get_admin(db=db, uid=user_id)
     if admin is None:
-        raise HTTPException(status_code=404, detail="Admin not found")
+        detail = f"Admin {user_id} not found"
+        raise HTTPException(status_code=404, detail=detail)
     return admin
