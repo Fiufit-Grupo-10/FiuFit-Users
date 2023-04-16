@@ -8,7 +8,7 @@ from sqlalchemy import (
     Text,
 )
 from sqlalchemy.orm import relationship
-from .database import Base
+from ...config.database import Base
 
 
 class User(Base):
@@ -30,13 +30,6 @@ class User(Base):
     trainingtypes = relationship("UserTrainingType", back_populates="owner")
 
 
-class TrainingType(Base):
-    __tablename__ = "trainingtypes"
-
-    name = Column(String(length=50), primary_key=True, unique=True, index=True)
-    descr = Column(Text)
-
-
 class UserTrainingType(Base):
     __tablename__ = "user_trainingtype"
 
@@ -46,11 +39,3 @@ class UserTrainingType(Base):
     __table_args__ = (PrimaryKeyConstraint("username", "trainingtype"),)
 
     owner = relationship("User", back_populates="trainingtypes")
-
-
-class Admin(Base):
-    __tablename__ = "admins"
-
-    uid = Column(String(length=50), unique=True, primary_key=True, index=True)
-    email = Column(String(length=100), unique=True, index=True)
-    username = Column(String(length=50), unique=True, index=True)

@@ -3,14 +3,6 @@ from enum import Enum
 from pydantic import BaseModel, Field, validator
 
 
-class TrainingType(BaseModel):
-    name: str
-    descr: str
-
-    class Config:
-        orm_mode = True
-
-
 class UserTrainingType(BaseModel):
     username: str
     trainingtype: str
@@ -72,24 +64,3 @@ class UserReturn(UserCreate):
         return [trainingtype.trainingtype for trainingtype in v]
 
 
-class AdminRequest(UserBase):
-    class Config:
-        orm_mode = True
-
-
-class AdminResponse(UserBase):
-    uid: str
-
-    class Config:
-        orm_mode = True
-
-
-class AdminCreate(AdminResponse):
-    class Config:
-        schema_extra = {
-            "example": {
-                "uid": "123",
-                "email": "a@mail.com",
-                "username": "admin10",
-            }
-        }

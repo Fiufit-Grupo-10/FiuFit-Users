@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.api.dependencies import get_db
-from ..sql_app import crud, schemas
+from app.api.training_types import schemas, crud
+from app.dependencies import get_db
+
 
 
 router = APIRouter(tags=["trainingtypes"])
