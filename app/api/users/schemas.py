@@ -62,5 +62,3 @@ class UserReturn(UserCreate):
     @validator("trainingtypes", pre=True)
     def extract_interests_names(cls, v):
         return [trainingtype.trainingtype for trainingtype in v]
-
-

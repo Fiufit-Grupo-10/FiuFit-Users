@@ -4,7 +4,6 @@ from app.api.training_types import schemas, crud
 from app.dependencies import get_db
 
 
-
 router = APIRouter(tags=["trainingtypes"])
 
 

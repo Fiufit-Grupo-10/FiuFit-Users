@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from . import models, schemas
 
+
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:
     try:
         new_user = models.User(uid=user.uid, email=user.email, username=user.username)
@@ -51,14 +52,16 @@ def update_user_training_types(db: Session, user: schemas.UserRequest):
         raise HTTPException(
             status_code=404, detail=f"TrainingType {trainingtype} not found"
         )
-        
+
+
 def get_user(db: Session, user_id: str) -> models.User:
     return db.query(models.User).filter(models.User.uid == user_id).first()
 
 
 def get_users(db: Session):
     return db.query(models.User).all()
-        
+
+
 def raise_integrity_error(
     e: IntegrityError,
     uid: int | None,

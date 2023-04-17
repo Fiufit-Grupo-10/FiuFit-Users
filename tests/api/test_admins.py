@@ -1,4 +1,3 @@
-
 def test_post_admin(test_app):
     data = {"uid": "20", "email": "admin@gmail.com", "username": "admin"}
     response = test_app.post(url="/admins", json=data)

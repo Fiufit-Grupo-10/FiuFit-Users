@@ -1,12 +1,4 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    PrimaryKeyConstraint,
-    String,
-    ForeignKey,
-    Date,
-    Text,
-)
+from sqlalchemy import Column, Integer, PrimaryKeyConstraint, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from ...config.database import Base
 

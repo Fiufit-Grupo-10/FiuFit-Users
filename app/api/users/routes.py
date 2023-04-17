@@ -4,7 +4,6 @@ from app.api.users import crud, schemas
 from app.dependencies import get_db
 
 
-
 router = APIRouter(tags=["users"])
 
 
