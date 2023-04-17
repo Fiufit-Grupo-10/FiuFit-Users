@@ -92,7 +92,6 @@ jobs:
           PGPASSWORD: fiufitpass 
         run: |
           psql -h localhost -U fiufit -d fiufit_users_dev -w -f init_database.sql
-
       - name: Run tests
         env:
           DATABASE_URL: postgresql://fiufit:fiufitpass@localhost/fiufit_users_dev
@@ -107,21 +106,3 @@ jobs:
           fail_ci_if_error: false
 
 
-#      - name: checkout
-#        uses: actions/checkout@master
-#      - name: Context
-#        uses: okteto/context@latest
-#        with:
-#          token: ${{ secrets.OKTETO_TOKEN }}
-
-#      - name: Create namespace
-#        uses: okteto/create-namespace@latest
-#        with:
-#          namespace: pr-${{ github.event.number }}-franco-jyq
-   
-#      - name: Deploy preview environment
-#        uses: okteto/deploy-preview@latest
-#        with:
-#          name: pr-${{ github.event.number }}-franco-jyq
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
