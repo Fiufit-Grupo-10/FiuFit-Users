@@ -1,30 +1,19 @@
-from fastapi import FastAPI, Depends
-from app.api import ping
-from sqlalchemy.orm import Session
-from .sql_app.database import SessionLocal, engine
-from .sql_app import crud, models, schemas
+from fastapi import FastAPI
+from app.api.users import routes as users_routes
+from app.api.users import models as users_models
+from app.api.training_types import routes as training_type_routes
+from app.api.training_types import models as training_types_models
+from app.api.admins import routes as admins_routes
+from app.api.admins import models as admins_models
+from .config.database import engine
 
-models.Base.metadata.create_all(bind=engine)
+
+users_models.Base.metadata.create_all(bind=engine)
+admins_models.Base.metadata.create_all(bind=engine)
+training_types_models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@app.get("/")
-def default():
-    return {"welcome": "working"}
-
-
-@app.post("/users", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    return crud.create_user(db=db, user=user)
-
-
-app.include_router(ping.router)
+app.include_router(users_routes.router)
+app.include_router(training_type_routes.router)
+app.include_router(admins_routes.router)
