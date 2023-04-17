@@ -19,6 +19,12 @@ git clone git@github.com:Fiufit-Grupo-10/FiuFit-Users.git
 sudo docker-compose -f docker-compose-testing.yml up --build
 ```
 
+### 3. Run this command in a new terminal to complete the initialization of the database service
+
+```bash
+sudo docker-compose -f docker-compose-testing.yml exec db psql --username=fiufit --dbname=fiufit_users_dev -f /docker-entrypoint-initdb.d/insert_tt.sql    
+```
+
 ## To run tests or other commands on the container:
 
 ```bash
