@@ -19,29 +19,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest       
-    services:
-      db:
-        image: postgres:15
-        volumes:
-          - postgres_data:/var/lib/postgresql/data/
-        env:
-          POSTGRES_DB: fiufit_users_dev
-          POSTGRES_USER: fiufit
-          POSTGRES_PASSWORD: fiufitpass
-          
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          # Maps tcp port 5432 on service container to the host
-          - 5432:5432        
-        
-          
-          
-             
-          
+            
 
     
     steps:
@@ -87,15 +65,8 @@ jobs:
       
       - name: Run flake
         run:  poetry run flake8 'app' --max-line-length 100      
-      - name: Insert data into database
-        env:
-          PGPASSWORD: fiufitpass 
-        run: |
-          psql -h localhost -U fiufit -d fiufit_users_dev -w -f init_database.sql
-
+      
       - name: Run tests
-        env:
-          DATABASE_URL: postgresql://fiufit:fiufitpass@localhost/fiufit_users_dev
         run: poetry run pytest -v --cov=app --cov-report term --cov-report xml:coverage.xml tests/
       - name: Upload coverage
         if: ${{ !inputs.skipTests }}  # upload when we really run our tests
@@ -106,22 +77,3 @@ jobs:
           file: ./coverage.xml  # file from the previous step
           fail_ci_if_error: false
 
-
-#      - name: checkout
-#        uses: actions/checkout@master
-#      - name: Context
-#        uses: okteto/context@latest
-#        with:
-#          token: ${{ secrets.OKTETO_TOKEN }}
-
-#      - name: Create namespace
-#        uses: okteto/create-namespace@latest
-#        with:
-#          namespace: pr-${{ github.event.number }}-franco-jyq
-   
-#      - name: Deploy preview environment
-#        uses: okteto/deploy-preview@latest
-#        with:
-#          name: pr-${{ github.event.number }}-franco-jyq
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
