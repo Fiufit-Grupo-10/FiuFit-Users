@@ -9,11 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-<<<<<<< HEAD
 
-=======
-              
->>>>>>> d2fe8af200fa6aaeb45a08f8836ae2cd97dec3ab
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
