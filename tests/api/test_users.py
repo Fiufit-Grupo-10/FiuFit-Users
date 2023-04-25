@@ -120,3 +120,38 @@ def test_get_user_fail(test_app):
     response = test_app.get(url="/users/25")
     assert response.status_code == 404
     assert response.json() == {"detail": "User 25 not found"}
+    
+    
+
+def test_put_user_username_and_email(test_app):
+    data = {
+        "email": "t2@gmail.com",
+        "username": "user2",
+        "height": "180",
+        "weight": "75",
+        "gender": "M",
+        "target": "fat loss",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
+        "level": "pro",
+        "latitude": "100",
+        "longitude": "100",
+        "user_type": "athlete",
+    }
+    response = test_app.put(url="/users/10", json=data)
+    assert response.status_code == 200
+    assert response.json() == {
+        "uid": "10",
+        "email": "t2@gmail.com",
+        "username": "user2",
+        "height": 180,
+        "weight": 75,
+        "gender": "M",
+        "target": "fat loss",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
+        "level": "pro",
+        "latitude": 100,
+        "longitude": 100,
+        "user_type": "athlete",
+    }

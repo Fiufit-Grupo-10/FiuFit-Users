@@ -20,7 +20,6 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
 
 def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User:
     old_user = get_user(db, uid)
-    update_user_training_types(db, user)
     old_user.height = user.height
     old_user.weight = user.weight
     old_user.gender = user.gender
@@ -30,10 +29,17 @@ def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User
     old_user.latitude = user.latitude
     old_user.longitude = user.longitude
     old_user.user_type = user.user_type
-    db.commit()
+    old_user.username = user.username
+    old_user.email = user.email
+    try: 
+        db.commit()
+    except IntegrityError as e:
+        raise_integrity_error(
+            e, uid=uid, username=user.username, email=user.email, type="User"
+        )    
+    update_user_training_types(db,user)         
     db.refresh(old_user)
     return old_user
-
 
 def update_user_training_types(db: Session, user: schemas.UserRequest):
     rows_to_delete = (
