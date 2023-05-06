@@ -18,6 +18,7 @@ class User(Base):
     latitude = Column(Integer, nullable=True)
     longitude = Column(Integer, nullable=True)
     user_type = Column(String(length=7), nullable=True)
+    image_url = Column(String, nullable = True)
 
     trainingtypes = relationship("UserTrainingType", back_populates="owner", cascade="all, delete, delete-orphan", passive_deletes=True)
 

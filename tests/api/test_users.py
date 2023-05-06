@@ -16,6 +16,7 @@ def test_post_user(test_app):
         "target": None,
         "trainingtypes": [],
         "user_type": None,
+        "image_url": None
     }
 
 
@@ -54,6 +55,7 @@ def test_put_user(test_app):
         "latitude": "100",
         "longitude": "100",
         "user_type": "athlete",
+        "image_url": "image.com"
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -71,6 +73,7 @@ def test_put_user(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
+        "image_url": "image.com"
     }
 
 
@@ -91,6 +94,7 @@ def test_get_user(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
+        "image_url": "image.com"
     }
 
 
@@ -112,6 +116,7 @@ def test_get_users(test_app):
             "latitude": 100,
             "longitude": 100,
             "user_type": "athlete",
+            "image_url": "image.com"
         }
     ]
 
@@ -137,6 +142,7 @@ def test_put_user_username_and_email(test_app):
         "latitude": "100",
         "longitude": "100",
         "user_type": "athlete",
+        "image_url": "image.com"
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -154,4 +160,5 @@ def test_put_user_username_and_email(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
+        "image_url": "image.com"
     }

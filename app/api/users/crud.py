@@ -29,6 +29,7 @@ def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User
     old_user.latitude = user.latitude
     old_user.longitude = user.longitude
     old_user.user_type = user.user_type
+    old_user.image_url = user.image_url
     old_user.username = user.username
     old_user.email = user.email
     try: 
