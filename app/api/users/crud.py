@@ -41,6 +41,8 @@ def update_user_training_types(db: Session, user: schemas.UserRequest):
     )
     for row in rows_to_delete:
         db.delete(row)
+    if user.trainingtypes is None:
+        return
     for trainingtype in user.trainingtypes:
         db.add(
             models.UserTrainingType(username=user.username, trainingtype=trainingtype)
