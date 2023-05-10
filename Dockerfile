@@ -14,10 +14,6 @@ RUN poetry config virtualenvs.create false
 
 RUN poetry install
 
-RUN apt update && apt upgrade
-
-RUN apt install -y libpq-dev
-
 ARG DATABASE_URL
 ENV DATABASE_URL ${DATABASE_URL}
 
