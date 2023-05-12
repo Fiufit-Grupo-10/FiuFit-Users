@@ -8,7 +8,7 @@ from . import schemas
 router = APIRouter(tags=["admins"])
 
 
-@router.post("/admins", response_model=schemas.AdminResponse)
+@router.post("/admins", response_model=schemas.AdminResponse, status_code=201)
 def create_admin(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
     return crud.create_admin(db=db, admin=admin)
 

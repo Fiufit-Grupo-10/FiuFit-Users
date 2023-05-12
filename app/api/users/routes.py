@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from app.api.users import crud, schemas
 from app.dependencies import get_db
@@ -7,7 +9,7 @@ from app.dependencies import get_db
 router = APIRouter(tags=["users"])
 
 
-@router.post("/users", response_model=schemas.UserReturn)
+@router.post("/users", response_model=schemas.UserReturn, status_code=201)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
@@ -30,5 +32,14 @@ def get_user(user_id: str, db: Session = Depends(get_db)):
 
 
 @router.get("/users", response_model=list[schemas.UserReturn])
-def get_users(db: Session = Depends(get_db)):
-    return crud.get_users(db=db)
+def get_users(
+    admin: bool = True, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)
+):
+    users = crud.get_users(db=db, skip=skip, limit=limit)
+    if admin:
+        return users
+    else:
+        users = jsonable_encoder(
+            users, include={"username", "birthday", "user_type", "image_url"}
+        )
+    return JSONResponse(content=users, status_code=200)

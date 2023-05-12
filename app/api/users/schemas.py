@@ -33,7 +33,7 @@ class UserRequest(UserBase):
     target: str | None = None
     trainingtypes: list[str] | None = None
     user_type: str | None = Field(default=None, max_length=7)
-    image_url: str | None = Field(default = None)
+    image_url: str | None = Field(default=None)
 
     class Config:
         orm_mode = True
@@ -51,13 +51,34 @@ class UserRequest(UserBase):
                 "target": "loss fat",
                 "trainingtypes": ["Cardio"],
                 "user_type": "athlete",
-                "image_url": "image.com"
+                "image_url": "image.com",
             }
         }
 
 
 class UserCreate(UserRequest):
     uid: str
+
+    class Config:
+        orm_mode = True
+        schema_extra = {
+            "example": {
+                "uid": "10",
+                "email": "user@mail.com",
+                "username": "user",
+                "birthday": "2000-12-21",
+                "level": "amateur",
+                "latitude": 1000,
+                "longitude": 1000,
+                "height": 180,
+                "weight": 80,
+                "gender": "M",
+                "target": "loss fat",
+                "trainingtypes": ["Cardio"],
+                "user_type": "athlete",
+                "image_url": "image.com",
+            }
+        }
 
 
 class UserReturn(UserCreate):

@@ -18,16 +18,29 @@ class User(Base):
     latitude = Column(Integer, nullable=True)
     longitude = Column(Integer, nullable=True)
     user_type = Column(String(length=7), nullable=True)
-    image_url = Column(String, nullable = True)
+    image_url = Column(String, nullable=True)
 
-    trainingtypes = relationship("UserTrainingType", back_populates="owner", cascade="all, delete, delete-orphan", passive_deletes=True)
+    trainingtypes = relationship(
+        "UserTrainingType",
+        back_populates="owner",
+        cascade="all, delete, delete-orphan",
+        passive_deletes=True,
+    )
 
 
 class UserTrainingType(Base):
     __tablename__ = "user_trainingtype"
 
-    username = Column(String, ForeignKey("users.username", ondelete="CASCADE", onupdate="CASCADE"), primary_key=True)
-    trainingtype = Column(String, ForeignKey("trainingtypes.name", ondelete="CASCADE", onupdate="CASCADE"), primary_key=True)
+    username = Column(
+        String,
+        ForeignKey("users.username", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+    )
+    trainingtype = Column(
+        String,
+        ForeignKey("trainingtypes.name", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+    )
 
     __table_args__ = (PrimaryKeyConstraint("username", "trainingtype"),)
 

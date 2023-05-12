@@ -1,7 +1,7 @@
 def test_post_user(test_app):
     data = {"uid": "10", "email": "t@gmail.com", "username": "user"}
     response = test_app.post(url="/users", json=data)
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json() == {
         "uid": "10",
         "email": "t@gmail.com",
@@ -16,7 +16,7 @@ def test_post_user(test_app):
         "target": None,
         "trainingtypes": [],
         "user_type": None,
-        "image_url": None
+        "image_url": None,
     }
 
 
@@ -55,7 +55,7 @@ def test_put_user(test_app):
         "latitude": "100",
         "longitude": "100",
         "user_type": "athlete",
-        "image_url": "image.com"
+        "image_url": "image.com",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -73,7 +73,7 @@ def test_put_user(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
-        "image_url": "image.com"
+        "image_url": "image.com",
     }
 
 
@@ -94,12 +94,12 @@ def test_get_user(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
-        "image_url": "image.com"
+        "image_url": "image.com",
     }
 
 
-def test_get_users(test_app):
-    response = test_app.get(url="/users")
+def test_get_users_admin(test_app):
+    response = test_app.get(url="/users?admin=true&skip=0&limit=2")
     assert response.status_code == 200
     assert response.json() == [
         {
@@ -116,7 +116,20 @@ def test_get_users(test_app):
             "latitude": 100,
             "longitude": 100,
             "user_type": "athlete",
-            "image_url": "image.com"
+            "image_url": "image.com",
+        }
+    ]
+
+
+def test_get_users_user(test_app):
+    response = test_app.get(url="/users?admin=false&skip=0&limit=2")
+    assert response.status_code == 200
+    assert response.json() == [
+        {
+            "username": "user",
+            "birthday": "1999-12-21",
+            "user_type": "athlete",
+            "image_url": "image.com",
         }
     ]
 
@@ -125,8 +138,7 @@ def test_get_user_fail(test_app):
     response = test_app.get(url="/users/25")
     assert response.status_code == 404
     assert response.json() == {"detail": "User 25 not found"}
-    
-    
+
 
 def test_put_user_username_and_email(test_app):
     data = {
@@ -142,7 +154,7 @@ def test_put_user_username_and_email(test_app):
         "latitude": "100",
         "longitude": "100",
         "user_type": "athlete",
-        "image_url": "image.com"
+        "image_url": "image.com",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -160,5 +172,5 @@ def test_put_user_username_and_email(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
-        "image_url": "image.com"
+        "image_url": "image.com",
     }
