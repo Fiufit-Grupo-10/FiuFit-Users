@@ -130,6 +130,8 @@ def test_get_users_user(test_app):
             "birthday": "1999-12-21",
             "user_type": "athlete",
             "image_url": "image.com",
+            "gender": "M",
+            "email": "t@gmail.com",
         }
     ]
 
