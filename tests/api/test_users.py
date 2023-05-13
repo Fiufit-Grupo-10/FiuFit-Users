@@ -174,3 +174,33 @@ def test_put_user_username_and_email(test_app):
         "user_type": "athlete",
         "image_url": "image.com",
     }
+
+
+def test_post_user_followers(test_app):
+    data = {"uid": "11", "email": "t1@gmail.com", "username": "user1"}
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+    data = {"uid": "13", "email": "t3@gmail.com", "username": "user3"}
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+
+    follower = {"follower_uid": "10"}
+    response = test_app.post(url="/users/11/followers", json=follower)
+    assert response.status_code == 201
+    assert response.json() == {"followed_uid": "11", "follower_uid": "10"}
+
+
+def test_get_user_followers(test_app):
+    follower = {"follower_uid": "13"}
+    response = test_app.post(url="/users/11/followers", json=follower)
+    assert response.status_code == 201
+
+    response = test_app.get(url="/users/11/followers")
+    assert response.status_code == 200
+    assert response.json() == ["10", "13"]
+
+
+def test_get_user_following(test_app):
+    response = test_app.get(url="/users/10/following")
+    assert response.status_code == 200
+    assert response.json() == ["11"]

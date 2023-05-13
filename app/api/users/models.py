@@ -27,6 +27,13 @@ class User(Base):
         passive_deletes=True,
     )
 
+    # followers = relationship(
+    #     "FollowingRelationship",
+    #     back_populates="followed",
+    #     cascade="all, delete, delete-orphan",
+    #     passive_deletes=True,
+    # )
+
 
 class UserTrainingType(Base):
     __tablename__ = "user_trainingtype"
@@ -45,3 +52,22 @@ class UserTrainingType(Base):
     __table_args__ = (PrimaryKeyConstraint("username", "trainingtype"),)
 
     owner = relationship("User", back_populates="trainingtypes")
+
+
+class FollowingRelationship(Base):
+    __tablename__ = "following_relationships"
+
+    followed_uid = Column(
+        String,
+        ForeignKey("users.uid", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+    )
+    follower_uid = Column(
+        String,
+        ForeignKey("users.uid", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+    )
+
+    __table_args__ = (PrimaryKeyConstraint("followed_uid", "follower_uid"),)
+
+    # followed = relationship("User", back_populates="followers")

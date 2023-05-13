@@ -85,3 +85,12 @@ class UserReturn(UserCreate):
     @validator("trainingtypes", pre=True)
     def extract_interests_names(cls, v):
         return [trainingtype.trainingtype for trainingtype in v]
+
+
+class Follower(BaseModel):
+    follower_uid: str
+
+
+class FollowerReturn(BaseModel):
+    followed_uid: str
+    follower_uid: str
