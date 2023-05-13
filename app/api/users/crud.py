@@ -70,7 +70,11 @@ def get_user(db: Session, user_id: str) -> models.User:
 
 def get_users(db: Session, skip: int, limit: int) -> list[models.User]:
     return db.query(models.User).offset(skip).limit(limit).all()
+              
 
+def get_users_by_username(db: Session, skip: int, limit: int,username: str = None) -> list[models.User]:
+    return db.query(models.User).filter(models.User.username.ilike(f'%{username}%')).offset(skip).limit(limit).all()
+        
 
 def raise_integrity_error(
     e: IntegrityError,

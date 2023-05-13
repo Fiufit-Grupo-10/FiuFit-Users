@@ -33,13 +33,17 @@ def get_user(user_id: str, db: Session = Depends(get_db)):
 
 @router.get("/users", response_model=list[schemas.UserReturn])
 def get_users(
-    admin: bool = True, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)
+    username: str = None,admin: bool = True, skip: int = 0, limit: int = 10,  db: Session = Depends(get_db), 
 ):
-    users = crud.get_users(db=db, skip=skip, limit=limit)
     if admin:
-        return users
+        return crud.get_users(db=db, skip=skip, limit=limit)
+    
+    if not username:
+        users = crud.get_users(db=db, skip=skip, limit=limit)
     else:
-        users = jsonable_encoder(
-            users, include={"username", "birthday", "user_type", "image_url"}
-        )
+        users = crud.get_users_by_username(db=db, skip=skip, limit=limit, username=username)
+        
+    users = jsonable_encoder(
+    users, include={"username", "birthday", "user_type", "image_url"}
+    )
     return JSONResponse(content=users, status_code=200)

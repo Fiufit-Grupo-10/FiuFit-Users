@@ -122,7 +122,7 @@ def test_get_users_admin(test_app):
 
 
 def test_get_users_user(test_app):
-    response = test_app.get(url="/users?admin=false&skip=0&limit=2")
+    response = test_app.get(url="/users?admin=false&skip=0&limit=2&username=us")
     assert response.status_code == 200
     assert response.json() == [
         {
