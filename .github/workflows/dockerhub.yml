@@ -3,6 +3,7 @@ on:
   workflow_run:
     workflows: [Python CI]
     types: [completed]
+  workflow_dispatch:
 
 jobs:
   on-success:
