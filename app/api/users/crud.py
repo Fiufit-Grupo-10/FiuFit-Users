@@ -18,9 +18,42 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
         )
 
 
+def add_user_follower(
+    db: Session, followed_uid: str, follower: schemas.Follower
+) -> models.FollowingRelationship:
+    try:
+        new_following_relationship = models.FollowingRelationship(
+            followed_uid=followed_uid, follower_uid=follower.follower_uid
+        )
+        db.add(new_following_relationship)
+        db.commit()
+        db.refresh(new_following_relationship)
+        return new_following_relationship
+    # Chequear el error cuando es repetido
+    except IntegrityError:
+        follower_uid = follower.follower_uid
+        detail = f"user with uid: {followed_uid},{follower_uid} does not exist"
+        raise HTTPException(status_code=404, detail=detail)
+
+
+def get_users_followers(db: Session, uid: str) -> list[models.FollowingRelationship]:
+    return (
+        db.query(models.FollowingRelationship)
+        .filter(models.FollowingRelationship.followed_uid.like(uid))
+        .all()
+    )
+
+
+def get_users_following(db: Session, uid: str) -> list[models.FollowingRelationship]:
+    return (
+        db.query(models.FollowingRelationship)
+        .filter(models.FollowingRelationship.follower_uid.like(uid))
+        .all()
+    )
+
+
 def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User:
     old_user = get_user(db, uid)
-    update_user_training_types(db, user)
     old_user.height = user.height
     old_user.weight = user.weight
     old_user.gender = user.gender
@@ -30,7 +63,16 @@ def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User
     old_user.latitude = user.latitude
     old_user.longitude = user.longitude
     old_user.user_type = user.user_type
-    db.commit()
+    old_user.image_url = user.image_url
+    old_user.username = user.username
+    old_user.email = user.email
+    try:
+        db.commit()
+    except IntegrityError as e:
+        raise_integrity_error(
+            e, uid=uid, username=user.username, email=user.email, type="User"
+        )
+    update_user_training_types(db, user)
     db.refresh(old_user)
     return old_user
 
@@ -60,8 +102,20 @@ def get_user(db: Session, user_id: str) -> models.User:
     return db.query(models.User).filter(models.User.uid == user_id).first()
 
 
-def get_users(db: Session):
-    return db.query(models.User).all()
+def get_users(db: Session, skip: int, limit: int) -> list[models.User]:
+    return db.query(models.User).offset(skip).limit(limit).all()
+
+
+def get_users_by_username(
+    db: Session, skip: int, limit: int, username: str
+) -> list[models.User]:
+    return (
+        db.query(models.User)
+        .filter(models.User.username.ilike(f"%{username}%"))
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def raise_integrity_error(

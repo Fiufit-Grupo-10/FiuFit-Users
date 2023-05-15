@@ -1,7 +1,7 @@
 def test_post_user(test_app):
     data = {"uid": "10", "email": "t@gmail.com", "username": "user"}
     response = test_app.post(url="/users", json=data)
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json() == {
         "uid": "10",
         "email": "t@gmail.com",
@@ -16,6 +16,7 @@ def test_post_user(test_app):
         "target": None,
         "trainingtypes": [],
         "user_type": None,
+        "image_url": None,
     }
 
 
@@ -54,6 +55,7 @@ def test_put_user(test_app):
         "latitude": "100",
         "longitude": "100",
         "user_type": "athlete",
+        "image_url": "image.com",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -71,6 +73,7 @@ def test_put_user(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
+        "image_url": "image.com",
     }
 
 
@@ -91,11 +94,12 @@ def test_get_user(test_app):
         "latitude": 100,
         "longitude": 100,
         "user_type": "athlete",
+        "image_url": "image.com",
     }
 
 
-def test_get_users(test_app):
-    response = test_app.get(url="/users")
+def test_get_users_admin(test_app):
+    response = test_app.get(url="/users?admin=true&skip=0&limit=2")
     assert response.status_code == 200
     assert response.json() == [
         {
@@ -112,6 +116,23 @@ def test_get_users(test_app):
             "latitude": 100,
             "longitude": 100,
             "user_type": "athlete",
+            "image_url": "image.com",
+        }
+    ]
+
+
+def test_get_users_user(test_app):
+    response = test_app.get(url="/users?admin=false&skip=0&limit=2&username=us")
+    assert response.status_code == 200
+    assert response.json() == [
+        {
+            "uid": "10",
+            "username": "user",
+            "birthday": "1999-12-21",
+            "user_type": "athlete",
+            "image_url": "image.com",
+            "gender": "M",
+            "email": "t@gmail.com",
         }
     ]
 
@@ -120,3 +141,69 @@ def test_get_user_fail(test_app):
     response = test_app.get(url="/users/25")
     assert response.status_code == 404
     assert response.json() == {"detail": "User 25 not found"}
+
+
+def test_put_user_username_and_email(test_app):
+    data = {
+        "email": "t2@gmail.com",
+        "username": "user2",
+        "height": "180",
+        "weight": "75",
+        "gender": "M",
+        "target": "fat loss",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
+        "level": "pro",
+        "latitude": "100",
+        "longitude": "100",
+        "user_type": "athlete",
+        "image_url": "image.com",
+    }
+    response = test_app.put(url="/users/10", json=data)
+    assert response.status_code == 200
+    assert response.json() == {
+        "uid": "10",
+        "email": "t2@gmail.com",
+        "username": "user2",
+        "height": 180,
+        "weight": 75,
+        "gender": "M",
+        "target": "fat loss",
+        "trainingtypes": ["Cardio", "Fuerza"],
+        "birthday": "1999-12-21",
+        "level": "pro",
+        "latitude": 100,
+        "longitude": 100,
+        "user_type": "athlete",
+        "image_url": "image.com",
+    }
+
+
+def test_post_user_followers(test_app):
+    data = {"uid": "11", "email": "t1@gmail.com", "username": "user1"}
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+    data = {"uid": "13", "email": "t3@gmail.com", "username": "user3"}
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+
+    follower = {"follower_uid": "10"}
+    response = test_app.post(url="/users/11/followers", json=follower)
+    assert response.status_code == 201
+    assert response.json() == {"followed_uid": "11", "follower_uid": "10"}
+
+
+def test_get_user_followers(test_app):
+    follower = {"follower_uid": "13"}
+    response = test_app.post(url="/users/11/followers", json=follower)
+    assert response.status_code == 201
+
+    response = test_app.get(url="/users/11/followers")
+    assert response.status_code == 200
+    assert response.json() == ["10", "13"]
+
+
+def test_get_user_following(test_app):
+    response = test_app.get(url="/users/10/following")
+    assert response.status_code == 200
+    assert response.json() == ["11"]
