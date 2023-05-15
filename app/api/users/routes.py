@@ -79,6 +79,14 @@ def get_users(
 
     users = jsonable_encoder(
         users,
-        include={"uid", "username", "birthday", "user_type", "image_url", "gender", "email"},
+        include={
+            "uid",
+            "username",
+            "birthday",
+            "user_type",
+            "image_url",
+            "gender",
+            "email",
+        },
     )
     return JSONResponse(content=users, status_code=200)
