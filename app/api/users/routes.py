@@ -61,7 +61,7 @@ def get_user(user_id: str, db: Session = Depends(get_db)):
 
 @router.get("/users", response_model=list[schemas.UserReturn])
 def get_users(
-    username: str = None,
+    username: str | None = None,
     admin: bool = True,
     skip: int = 0,
     limit: int = 10,
@@ -70,7 +70,7 @@ def get_users(
     if admin:
         return crud.get_users(db=db, skip=skip, limit=limit)
 
-    if not username:
+    if username is None:
         users = crud.get_users(db=db, skip=skip, limit=limit)
     else:
         users = crud.get_users_by_username(

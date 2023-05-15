@@ -106,7 +106,7 @@ def get_users(db: Session, skip: int, limit: int) -> list[models.User]:
 
 
 def get_users_by_username(
-    db: Session, skip: int, limit: int, username: str = None
+    db: Session, skip: int, limit: int, username: str
 ) -> list[models.User]:
     return (
         db.query(models.User)
