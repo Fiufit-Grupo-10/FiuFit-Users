@@ -126,6 +126,7 @@ def test_get_users_user(test_app):
     assert response.status_code == 200
     assert response.json() == [
         {
+            "uid": "10",
             "username": "user",
             "birthday": "1999-12-21",
             "user_type": "athlete",
