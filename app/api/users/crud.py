@@ -30,7 +30,7 @@ def add_user_follower(
         db.refresh(new_following_relationship)
         return new_following_relationship
     # Chequear el error cuando es repetido
-    except IntegrityError as _:
+    except IntegrityError:
         follower_uid = follower.follower_uid
         detail = f"user with uid: {followed_uid},{follower_uid} does not exist"
         raise HTTPException(status_code=404, detail=detail)
