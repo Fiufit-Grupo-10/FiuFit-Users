@@ -17,6 +17,7 @@ def test_post_user(test_app):
         "trainingtypes": [],
         "user_type": None,
         "image_url": None,
+        "token": None,
     }
 
 
@@ -56,6 +57,7 @@ def test_put_user(test_app):
         "longitude": "100",
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -74,6 +76,7 @@ def test_put_user(test_app):
         "longitude": 100,
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example",
     }
 
 
@@ -95,6 +98,7 @@ def test_get_user(test_app):
         "longitude": 100,
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example",
     }
 
 
@@ -117,6 +121,7 @@ def test_get_users_admin(test_app):
             "longitude": 100,
             "user_type": "athlete",
             "image_url": "image.com",
+            "token": "token_example",
         }
     ]
 
@@ -126,13 +131,13 @@ def test_get_users_user(test_app):
     assert response.status_code == 200
     assert response.json() == [
         {
-            "uid": "10",
             "username": "user",
             "birthday": "1999-12-21",
             "user_type": "athlete",
             "image_url": "image.com",
             "gender": "M",
             "email": "t@gmail.com",
+            "uid": "10",
         }
     ]
 
@@ -158,6 +163,7 @@ def test_put_user_username_and_email(test_app):
         "longitude": "100",
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -176,6 +182,7 @@ def test_put_user_username_and_email(test_app):
         "longitude": 100,
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example",
     }
 
 
@@ -187,15 +194,13 @@ def test_post_user_followers(test_app):
     response = test_app.post(url="/users", json=data)
     assert response.status_code == 201
 
-    follower = {"follower_uid": "10"}
-    response = test_app.post(url="/users/11/followers", json=follower)
+    response = test_app.post(url="/users/11/followers/10")
     assert response.status_code == 201
     assert response.json() == {"followed_uid": "11", "follower_uid": "10"}
 
 
 def test_get_user_followers(test_app):
-    follower = {"follower_uid": "13"}
-    response = test_app.post(url="/users/11/followers", json=follower)
+    response = test_app.post(url="/users/11/followers/13")
     assert response.status_code == 201
 
     response = test_app.get(url="/users/11/followers")
@@ -207,3 +212,12 @@ def test_get_user_following(test_app):
     response = test_app.get(url="/users/10/following")
     assert response.status_code == 200
     assert response.json() == ["11"]
+
+
+def test_delete_user_follower(test_app):
+    response = test_app.delete(url="/users/11/followers/10")
+    assert response.status_code == 200
+
+    response = test_app.get(url="/users/11/followers")
+    assert response.status_code == 200
+    assert response.json() == ["13"]

@@ -34,6 +34,7 @@ class UserRequest(UserBase):
     trainingtypes: list[str] | None = None
     user_type: str | None = Field(default=None, max_length=7)
     image_url: str | None = Field(default=None)
+    token: str | None = Field(default=None)
 
     class Config:
         orm_mode = True
@@ -52,6 +53,7 @@ class UserRequest(UserBase):
                 "trainingtypes": ["Cardio"],
                 "user_type": "athlete",
                 "image_url": "image.com",
+                "token": "token_example",
             }
         }
 
@@ -77,6 +79,7 @@ class UserCreate(UserRequest):
                 "trainingtypes": ["Cardio"],
                 "user_type": "athlete",
                 "image_url": "image.com",
+                "token": "token_example",
             }
         }
 
@@ -85,10 +88,6 @@ class UserReturn(UserCreate):
     @validator("trainingtypes", pre=True)
     def extract_interests_names(cls, v):
         return [trainingtype.trainingtype for trainingtype in v]
-
-
-class Follower(BaseModel):
-    follower_uid: str
 
 
 class FollowerReturn(BaseModel):
