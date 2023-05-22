@@ -19,6 +19,7 @@ class User(Base):
     longitude = Column(Integer, nullable=True)
     user_type = Column(String(length=7), nullable=True)
     image_url = Column(String, nullable=True)
+    token = Column(String, nullable=True)
 
     trainingtypes = relationship(
         "UserTrainingType",

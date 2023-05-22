@@ -17,8 +17,9 @@ def test_post_user(test_app):
         "trainingtypes": [],
         "user_type": None,
         "image_url": None,
+        "token": None
     }
-
+                
 
 def test_post_user_uid_fail(test_app):
     data = {"uid": "10", "email": "t2@gmail.com", "username": "user2"}
@@ -56,6 +57,7 @@ def test_put_user(test_app):
         "longitude": "100",
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example"
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -74,6 +76,7 @@ def test_put_user(test_app):
         "longitude": 100,
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example"
     }
 
 
@@ -95,6 +98,7 @@ def test_get_user(test_app):
         "longitude": 100,
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example"
     }
 
 
@@ -117,6 +121,7 @@ def test_get_users_admin(test_app):
             "longitude": 100,
             "user_type": "athlete",
             "image_url": "image.com",
+            "token": "token_example"
         }
     ]
 
@@ -126,13 +131,13 @@ def test_get_users_user(test_app):
     assert response.status_code == 200
     assert response.json() == [
         {
-            "uid": "10",
             "username": "user",
             "birthday": "1999-12-21",
             "user_type": "athlete",
             "image_url": "image.com",
             "gender": "M",
             "email": "t@gmail.com",
+            "uid": "10"
         }
     ]
 
@@ -158,6 +163,7 @@ def test_put_user_username_and_email(test_app):
         "longitude": "100",
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example"
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -176,6 +182,7 @@ def test_put_user_username_and_email(test_app):
         "longitude": 100,
         "user_type": "athlete",
         "image_url": "image.com",
+        "token": "token_example"
     }
 
 
