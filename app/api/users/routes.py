@@ -15,15 +15,21 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post(
-    "/users/{user_id}/followers", response_model=schemas.FollowerReturn, status_code=201
+    "/users/{user_id}/followers/{follower_id}",
+    response_model=schemas.FollowerReturn,
+    status_code=201,
 )
-def add_user_follower(
-    user_id: str, follower: schemas.Follower, db: Session = Depends(get_db)
-):
+def add_user_follower(user_id: str, follower_id: str, db: Session = Depends(get_db)):
     followerreturn = jsonable_encoder(
-        crud.add_user_follower(db=db, followed_uid=user_id, follower=follower)
+        crud.add_user_follower(db=db, followed_uid=user_id, follower_uid=follower_id)
     )
     return JSONResponse(content=followerreturn, status_code=201)
+
+
+@router.delete("/users/{user_id}/followers/{follower_id}", status_code=200)
+def delete_user_follower(user_id: str, follower_id: str, db: Session = Depends(get_db)):
+    crud.delete_user_follower(followed_uid=user_id, follower_uid=follower_id, db=db)
+    return JSONResponse(content=None, status_code=200)
 
 
 @router.get("/users/{user_id}/followers", response_model=list[str], status_code=200)

@@ -19,11 +19,11 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
 
 
 def add_user_follower(
-    db: Session, followed_uid: str, follower: schemas.Follower
+    db: Session, followed_uid: str, follower_uid: str
 ) -> models.FollowingRelationship:
     try:
         new_following_relationship = models.FollowingRelationship(
-            followed_uid=followed_uid, follower_uid=follower.follower_uid
+            followed_uid=followed_uid, follower_uid=follower_uid
         )
         db.add(new_following_relationship)
         db.commit()
@@ -31,9 +31,21 @@ def add_user_follower(
         return new_following_relationship
     # Chequear el error cuando es repetido
     except IntegrityError:
-        follower_uid = follower.follower_uid
+        follower_uid = follower_uid
         detail = f"user with uid: {followed_uid},{follower_uid} does not exist"
         raise HTTPException(status_code=404, detail=detail)
+
+
+def delete_user_follower(db: Session, followed_uid: str, follower_uid: str):
+    following_relationship = (
+        db.query(models.FollowingRelationship)
+        .filter_by(followed_uid=followed_uid, follower_uid=follower_uid)
+        .first()
+    )
+    if following_relationship is None:
+        return
+    db.delete(following_relationship)
+    db.commit()
 
 
 def get_users_followers(db: Session, uid: str) -> list[models.FollowingRelationship]:
