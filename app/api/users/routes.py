@@ -93,6 +93,7 @@ def get_users(
             "image_url",
             "gender",
             "email",
+            "token",
         },
     )
     return JSONResponse(content=users, status_code=200)
