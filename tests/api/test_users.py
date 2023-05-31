@@ -18,6 +18,7 @@ def test_post_user(test_app):
         "user_type": None,
         "image_url": None,
         "token": None,
+        "blocked": False,
     }
 
 
@@ -58,6 +59,7 @@ def test_put_user(test_app):
         "user_type": "athlete",
         "image_url": "image.com",
         "token": "token_example",
+        "blocked": "False",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -77,6 +79,7 @@ def test_put_user(test_app):
         "user_type": "athlete",
         "image_url": "image.com",
         "token": "token_example",
+        "blocked": False,
     }
 
 
@@ -99,6 +102,7 @@ def test_get_user(test_app):
         "user_type": "athlete",
         "image_url": "image.com",
         "token": "token_example",
+        "blocked": False,
     }
 
 
@@ -122,6 +126,7 @@ def test_get_users_admin(test_app):
             "user_type": "athlete",
             "image_url": "image.com",
             "token": "token_example",
+            "blocked": False,
         }
     ]
 
@@ -137,6 +142,7 @@ def test_get_users_user(test_app):
             "image_url": "image.com",
             "gender": "M",
             "email": "t@gmail.com",
+            "token": "token_example",
             "uid": "10",
         }
     ]
@@ -183,6 +189,7 @@ def test_put_user_username_and_email(test_app):
         "user_type": "athlete",
         "image_url": "image.com",
         "token": "token_example",
+        "blocked": False,
     }
 
 

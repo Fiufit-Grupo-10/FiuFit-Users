@@ -1,4 +1,12 @@
-from sqlalchemy import Column, Integer, PrimaryKeyConstraint, String, ForeignKey, Date
+from sqlalchemy import (
+    Column,
+    Integer,
+    PrimaryKeyConstraint,
+    String,
+    ForeignKey,
+    Date,
+    Boolean,
+)
 from sqlalchemy.orm import relationship
 from ...config.database import Base
 
@@ -20,6 +28,7 @@ class User(Base):
     user_type = Column(String(length=7), nullable=True)
     image_url = Column(String, nullable=True)
     token = Column(String, nullable=True)
+    blocked = Column(Boolean, default=False)
 
     trainingtypes = relationship(
         "UserTrainingType",
@@ -27,13 +36,6 @@ class User(Base):
         cascade="all, delete, delete-orphan",
         passive_deletes=True,
     )
-
-    # followers = relationship(
-    #     "FollowingRelationship",
-    #     back_populates="followed",
-    #     cascade="all, delete, delete-orphan",
-    #     passive_deletes=True,
-    # )
 
 
 class UserTrainingType(Base):
@@ -70,5 +72,3 @@ class FollowingRelationship(Base):
     )
 
     __table_args__ = (PrimaryKeyConstraint("followed_uid", "follower_uid"),)
-
-    # followed = relationship("User", back_populates="followers")

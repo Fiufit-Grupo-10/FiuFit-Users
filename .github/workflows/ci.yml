@@ -87,11 +87,7 @@ jobs:
       
       - name: Run flake
         run:  poetry run flake8 'app' --max-line-length 100      
-      - name: Insert data into database
-        env:
-          PGPASSWORD: fiufitpass 
-        run: |
-          psql -h localhost -U fiufit -d fiufit_users_dev -w -f init_database.sql
+        
       - name: Run tests
         env:
           DATABASE_URL: postgresql://fiufit:fiufitpass@localhost/fiufit_users_dev
