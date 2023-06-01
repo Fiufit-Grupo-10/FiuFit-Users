@@ -96,3 +96,8 @@ class UserReturn(UserCreate):
 class FollowerReturn(BaseModel):
     followed_uid: str
     follower_uid: str
+
+
+class UserBlock(BaseModel):
+    uid: str
+    blocked: bool
