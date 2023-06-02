@@ -228,3 +228,48 @@ def test_delete_user_follower(test_app):
     response = test_app.get(url="/users/11/followers")
     assert response.status_code == 200
     assert response.json() == ["13"]
+
+
+def test_patch_user(test_app):
+    data = [{"uid": "10", "blocked": "true"}, {"uid": "11", "blocked": "true"}]
+    response = test_app.patch(url="/users", json=data)
+
+    assert response.status_code == 200
+    assert response.json() == [
+        {
+            "uid": "10",
+            "email": "t2@gmail.com",
+            "username": "user2",
+            "height": 180,
+            "weight": 75,
+            "gender": "M",
+            "target": "fat loss",
+            "trainingtypes": ["Cardio", "Fuerza"],
+            "birthday": "1999-12-21",
+            "level": "pro",
+            "latitude": 100,
+            "longitude": 100,
+            "user_type": "athlete",
+            "image_url": "image.com",
+            "token": "token_example",
+            "blocked": True,
+        },
+        {
+            "uid": "11",
+            "email": "t1@gmail.com",
+            "username": "user1",
+            "birthday": None,
+            "level": None,
+            "latitude": None,
+            "longitude": None,
+            "height": None,
+            "weight": None,
+            "gender": None,
+            "target": None,
+            "trainingtypes": [],
+            "user_type": None,
+            "image_url": None,
+            "token": None,
+            "blocked": True,
+        },
+    ]

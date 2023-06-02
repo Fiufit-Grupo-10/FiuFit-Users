@@ -91,6 +91,18 @@ def update_user(db: Session, user: schemas.UserRequest, uid: str) -> models.User
     return old_user
 
 
+def update_user_block(users: list[schemas.UserBlock], db: Session) -> list[models.User]:
+    updated_users = []
+    # Should check for mistakes (Should inform if uid does not exist)
+    for user in users:
+        old_user = get_user(db, user.uid)
+        old_user.blocked = user.blocked
+        db.commit()
+        updated_users.append(old_user)
+
+    return updated_users
+
+
 def update_user_training_types(db: Session, user: schemas.UserRequest):
     rows_to_delete = (
         db.query(models.UserTrainingType).filter_by(username=user.username).all()

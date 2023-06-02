@@ -56,6 +56,11 @@ def update_user(user: schemas.UserRequest, user_id: str, db: Session = Depends(g
     return crud.update_user(db=db, user=user, uid=user_id)
 
 
+@router.patch("/users", response_model=list[schemas.UserReturn], status_code=200)
+def update_users_block(users: list[schemas.UserBlock], db: Session = Depends(get_db)):
+    return crud.update_user_block(users=users, db=db)
+
+
 @router.get("/users/{user_id}", response_model=schemas.UserReturn)
 def get_user(user_id: str, db: Session = Depends(get_db)):
     user = crud.get_user(db=db, user_id=user_id)
