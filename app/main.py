@@ -7,10 +7,11 @@ from app.api.admins import routes as admins_routes
 from app.api.admins import models as admins_models
 from .config.database import engine
 
-
+# Esto podria hacerse solo si se esta en develop/corriendo el ci (capaz no hace falta igual) 
 users_models.Base.metadata.create_all(bind=engine)
 admins_models.Base.metadata.create_all(bind=engine)
 training_types_models.Base.metadata.create_all(bind=engine)
+#
 app = FastAPI()
 
 

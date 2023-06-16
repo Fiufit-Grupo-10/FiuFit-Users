@@ -29,6 +29,7 @@ class User(Base):
     image_url = Column(String, nullable=True)
     token = Column(String, nullable=True)
     blocked = Column(Boolean, default=False)
+    # certified = Column(Boolean, default=False)
 
     trainingtypes = relationship(
         "UserTrainingType",

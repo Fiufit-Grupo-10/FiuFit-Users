@@ -10,7 +10,7 @@ engine = create_engine(
     pool_pre_ping=True,
 )
 
-metadata = MetaData(schema="users")
+metadata = MetaData()
 
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
