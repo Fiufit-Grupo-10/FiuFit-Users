@@ -10,4 +10,4 @@ class Certificate(Base):
         ForeignKey("users.uid", ondelete="CASCADE", onupdate="CASCADE"),
     )
     state = Column(Boolean)
-    link = Column(String(length=200))
+    link = Column(String)
