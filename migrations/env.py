@@ -22,6 +22,7 @@ from app.config.database import Base
 from app.api.users.models import User, UserTrainingType, FollowingRelationship
 from app.api.training_types.models import TrainingType
 from app.api.admins.models import Admin
+from app.api.certificates.models import Certificate
 
 target_metadata = Base.metadata
 
