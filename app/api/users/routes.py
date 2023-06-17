@@ -99,6 +99,7 @@ def get_users(
             "gender",
             "email",
             "token",
+            "certified",
         },
     )
     return JSONResponse(content=users, status_code=200)

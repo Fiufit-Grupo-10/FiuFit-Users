@@ -103,6 +103,12 @@ def update_user_block(users: list[schemas.UserBlock], db: Session) -> list[model
     return updated_users
 
 
+def update_user_certified(uid: str, db: Session, certified: bool):
+    old_user = get_user(db=db, user_id=uid)
+    old_user.certified = certified
+    db.commit()
+
+
 def update_user_training_types(db: Session, user: schemas.UserRequest):
     rows_to_delete = (
         db.query(models.UserTrainingType).filter_by(username=user.username).all()
