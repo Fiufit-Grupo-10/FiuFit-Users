@@ -24,6 +24,7 @@ from app.api.training_types.models import TrainingType
 from app.api.admins.models import Admin
 from app.api.certificates.models import Certificate
 
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
