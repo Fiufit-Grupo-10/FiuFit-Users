@@ -19,6 +19,7 @@ def test_post_user(test_app):
         "image_url": None,
         "token": None,
         "blocked": False,
+        "certified": False,
     }
 
 
@@ -60,6 +61,7 @@ def test_put_user(test_app):
         "image_url": "image.com",
         "token": "token_example",
         "blocked": "False",
+        "certified": "False",
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -80,6 +82,7 @@ def test_put_user(test_app):
         "image_url": "image.com",
         "token": "token_example",
         "blocked": False,
+        "certified": False,
     }
 
 
@@ -103,6 +106,7 @@ def test_get_user(test_app):
         "image_url": "image.com",
         "token": "token_example",
         "blocked": False,
+        "certified": False,
     }
 
 
@@ -127,6 +131,7 @@ def test_get_users_admin(test_app):
             "image_url": "image.com",
             "token": "token_example",
             "blocked": False,
+            "certified": False,
         }
     ]
 
@@ -143,6 +148,7 @@ def test_get_users_user(test_app):
             "gender": "M",
             "email": "t@gmail.com",
             "token": "token_example",
+            "certified": False,
             "uid": "10",
         }
     ]
@@ -170,6 +176,7 @@ def test_put_user_username_and_email(test_app):
         "user_type": "athlete",
         "image_url": "image.com",
         "token": "token_example",
+        "certified": False,
     }
     response = test_app.put(url="/users/10", json=data)
     assert response.status_code == 200
@@ -190,6 +197,7 @@ def test_put_user_username_and_email(test_app):
         "image_url": "image.com",
         "token": "token_example",
         "blocked": False,
+        "certified": False,
     }
 
 
@@ -253,6 +261,7 @@ def test_patch_user(test_app):
             "image_url": "image.com",
             "token": "token_example",
             "blocked": True,
+            "certified": False,
         },
         {
             "uid": "11",
@@ -271,5 +280,6 @@ def test_patch_user(test_app):
             "image_url": None,
             "token": None,
             "blocked": True,
+            "certified": False,
         },
     ]

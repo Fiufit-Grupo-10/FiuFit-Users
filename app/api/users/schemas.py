@@ -36,6 +36,7 @@ class UserRequest(UserBase):
     image_url: str | None = Field(default=None)
     token: str | None = Field(default=None)
     blocked: bool | None = Field(default=False)
+    certified: bool | None = Field(default=False)
 
     class Config:
         orm_mode = True
@@ -56,6 +57,7 @@ class UserRequest(UserBase):
                 "image_url": "image.com",
                 "token": "token_example",
                 "blocked": False,
+                "certified": False,
             }
         }
 
@@ -83,6 +85,7 @@ class UserCreate(UserRequest):
                 "image_url": "image.com",
                 "token": "token_example",
                 "blocked": False,
+                "certified": False,
             }
         }
 
