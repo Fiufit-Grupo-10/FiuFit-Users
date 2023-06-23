@@ -19,4 +19,4 @@ ENV DATABASE_URL ${DATABASE_URL}
 
 EXPOSE 8090
 
-CMD ["uvicorn", "app.main:app", "--host=0.0.0.0", "--port=80"]
+CMD ["ddtrace-run", "uvicorn", "app.main:app", "--host=0.0.0.0", "--port=80"]
