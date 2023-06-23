@@ -9,10 +9,10 @@ from app.api.certificates import routes as certificate_routes
 from app.api.certificates import models as certificate_models
 from .config.database import engine
 from ddtrace.contrib.asgi import TraceMiddleware
-from ddtrace import config
+from ddtrace import config as ddtrace_config
 
 # Override service name
-config.fastapi['service_name'] = 'users-service'
+ddtrace_config.fastapi['service_name'] = 'users-service'
 
 
 # Esto podria hacerse solo si se esta en develop/corriendo el ci (capaz no hace falta igual)
