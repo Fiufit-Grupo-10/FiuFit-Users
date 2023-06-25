@@ -138,6 +138,16 @@ def get_users(db: Session, skip: int, limit: int) -> list[models.User]:
     return db.query(models.User).offset(skip).limit(limit).all()
 
 
+def get_trainers(db: Session, skip: int = 0, limit: int = 10) -> list[models.User]:
+    return (
+        db.query(models.User)
+        .filter(models.User.user_type == "trainer")
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
+
 def get_users_by_username(
     db: Session, skip: int, limit: int, username: str
 ) -> list[models.User]:

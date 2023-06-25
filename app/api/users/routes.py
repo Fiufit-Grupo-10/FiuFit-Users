@@ -4,6 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from app.api.users import crud, schemas
 from app.dependencies import get_db
+from app.api.users import services
 
 
 router = APIRouter(tags=["users"])
@@ -103,3 +104,19 @@ def get_users(
         },
     )
     return JSONResponse(content=users, status_code=200)
+
+
+@router.get(
+    "/users/{user_id}/trainers",
+    response_model=list[schemas.UserReturn],
+    status_code=200,
+)
+def filter_trainers_by_distance(
+    user_id: str, distance: float, db: Session = Depends(get_db)
+):
+    user = crud.get_user(db=db, user_id=user_id)
+    if user is None:
+        detail = f"User {user_id} not found"
+        raise HTTPException(status_code=404, detail=detail)
+    trainers = services.filter_trainers_by_distance(user=user, distance=distance, db=db)
+    return trainers
