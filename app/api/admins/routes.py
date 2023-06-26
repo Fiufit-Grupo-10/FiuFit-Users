@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from . import crud
 from app.dependencies import get_db
+from app.api.users.utils import raise_integrity_error
 from . import schemas
 
 
@@ -12,7 +14,12 @@ router = APIRouter(tags=["admins"])
     "/admins", response_model=schemas.AdminResponse, status_code=status.HTTP_201_CREATED
 )
 def create_admin(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
-    return crud.create_admin(db=db, admin=admin)
+    try:
+        return crud.create_admin(db=db, admin=admin)
+    except IntegrityError as e:
+        raise_integrity_error(
+            e, uid=admin.uid, username=admin.username, email=admin.email, type="Admin"
+        )
 
 
 @router.get(
