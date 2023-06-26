@@ -8,17 +8,27 @@ from . import schemas
 router = APIRouter(tags=["admins"])
 
 
-@router.post("/admins", response_model=schemas.AdminResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/admins", response_model=schemas.AdminResponse, status_code=status.HTTP_201_CREATED
+)
 def create_admin(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
     return crud.create_admin(db=db, admin=admin)
 
 
-@router.get("/admins", response_model=list[schemas.AdminResponse],status_code=status.HTTP_200_OK)
+@router.get(
+    "/admins",
+    response_model=list[schemas.AdminResponse],
+    status_code=status.HTTP_200_OK,
+)
 def get_admins(db: Session = Depends(get_db)):
     return crud.get_admins(db=db)
 
 
-@router.get("/admins/{user_id}", response_model=schemas.AdminResponse,status_code=status.HTTP_200_OK)
+@router.get(
+    "/admins/{user_id}",
+    response_model=schemas.AdminResponse,
+    status_code=status.HTTP_200_OK,
+)
 def get_admin(user_id: str, db: Session = Depends(get_db)):
     admin = crud.get_admin(db=db, uid=user_id)
     if admin is None:

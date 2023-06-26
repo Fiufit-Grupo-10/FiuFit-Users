@@ -20,7 +20,8 @@ class Gender(str, Enum):
     M = "M"
     F = "F"
     U = "U"
-    
+
+
 class UserType(str, Enum):
     athlete = "athlete"
     trainer = "trainer"

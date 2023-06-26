@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException,status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from . import service, crud
@@ -10,7 +10,9 @@ router = APIRouter(tags=["certificates"])
 
 
 @router.post(
-    "/certificates/{user_id}", response_model=schemas.CertificateReturn, status_code= status.HTTP_201_CREATED
+    "/certificates/{user_id}",
+    response_model=schemas.CertificateReturn,
+    status_code=status.HTTP_201_CREATED,
 )
 def load_certificate(
     certificate: schemas.CertificateRequest, user_id: str, db: Session = Depends(get_db)
@@ -19,7 +21,8 @@ def load_certificate(
         return service.load_certificate(certificate=certificate, db=db, uid=user_id)
     except IntegrityError:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"User with uid: '{user_id}' not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with uid: '{user_id}' not found",
         )
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
@@ -48,12 +51,15 @@ def update_certificate(
         return certificate
     except IntegrityError:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"User with uid:{user_id} not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with uid:{user_id} not found",
         )
 
 
 @router.get(
-    "/certificates/{user_id}", response_model=schemas.CertificateReturn, status_code=status.HTTP_200_OK
+    "/certificates/{user_id}",
+    response_model=schemas.CertificateReturn,
+    status_code=status.HTTP_200_OK,
 )
 def get_user_certificate(user_id: str, db: Session = Depends(get_db)):
     try:
@@ -66,12 +72,15 @@ def get_user_certificate(user_id: str, db: Session = Depends(get_db)):
         return certificate
     except IntegrityError:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"User with uid:{user_id} not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with uid:{user_id} not found",
         )
 
 
 @router.get(
-    "/certificates", response_model=list[schemas.CertificateReturn], status_code=status.HTTP_200_OK
+    "/certificates",
+    response_model=list[schemas.CertificateReturn],
+    status_code=status.HTTP_200_OK,
 )
 def get_certificates(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return crud.get_all_certificates(skip=skip, limit=limit, db=db)
