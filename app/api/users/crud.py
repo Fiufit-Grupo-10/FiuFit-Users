@@ -7,7 +7,23 @@ from . import models, schemas
 
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:
     try:
-        new_user = models.User(uid=user.uid, email=user.email, username=user.username)
+        new_user = models.User(
+            uid=user.uid,
+            email=user.email,
+            username=user.username,
+            birthday=user.birthday,
+            height=user.height,
+            weight=user.weight,
+            target=user.target,
+            level=user.level,
+            latitude=user.latitude,
+            longitude=user.longitude,
+            user_type=user.user_type,
+            image_url=user.image_url,
+            token=user.token,
+            blocked=user.blocked,
+            certified=user.certified,
+        )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
