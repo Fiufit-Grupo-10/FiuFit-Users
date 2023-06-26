@@ -52,6 +52,18 @@ def test_post_certificate(test_app):
 
 
 def test_put_certificate(test_app):
+    data = {
+        "uid": "100",
+        "email": "t100@gmail.com",
+        "username": "user100",
+    }
+    user = test_app.post(url="/users", json=data)
+    assert user.status_code == 201
+
+    certificate = {"state": None, "link": "video.com"}
+    response = test_app.post(url="/certificates/100", json=certificate)
+    assert response.status_code == 201
+
     certificate = {"state": True, "link": "video.com"}
     response = test_app.put(url="/certificates/100/1", json=certificate)
     assert response.status_code == 200
@@ -86,19 +98,43 @@ def test_put_certificate(test_app):
 
 
 def test_get_certificate(test_app):
+    data = {
+        "uid": "100",
+        "email": "t100@gmail.com",
+        "username": "user100",
+    }
+    user = test_app.post(url="/users", json=data)
+    assert user.status_code == 201
+
+    certificate = {"state": None, "link": "video.com"}
+    response = test_app.post(url="/certificates/100", json=certificate)
+    assert response.status_code == 201
+
     response = test_app.get(url="/certificates/100")
     assert response.status_code == 200
     assert response.json() == {
         "id": 1,
         "uid": "100",
-        "state": True,
+        "state": None,
         "link": "video.com",
     }
 
 
 def test_get_certificates(test_app):
+    data = {
+        "uid": "100",
+        "email": "t100@gmail.com",
+        "username": "user100",
+    }
+    user = test_app.post(url="/users", json=data)
+    assert user.status_code == 201
+
+    certificate = {"state": None, "link": "video.com"}
+    response = test_app.post(url="/certificates/100", json=certificate)
+    assert response.status_code == 201
+
     response = test_app.get(url="/certificates")
     assert response.status_code == 200
     assert response.json() == [
-        {"id": 1, "uid": "100", "state": True, "link": "video.com"}
+        {"id": 1, "uid": "100", "state": None, "link": "video.com"}
     ]
