@@ -25,8 +25,8 @@ class Gender(str, Enum):
 class UserRequest(UserBase):
     birthday: date | None = Field(default=None, description="format YYYY-MM-DD")
     level: str | None = None
-    latitude: int | None = None
-    longitude: int | None = None
+    latitude: float | None = None
+    longitude: float | None = None
     height: int | None = Field(default=None, description="unit: cm")
     weight: int | None = Field(default=None, description="unit: kg")
     gender: Gender | None = Field(default=None, max_length=1)
@@ -46,8 +46,8 @@ class UserRequest(UserBase):
                 "username": "user",
                 "birthday": "2000-12-21",
                 "level": "amateur",
-                "latitude": 1000,
-                "longitude": 1000,
+                "latitude": 50,
+                "longitude": 50,
                 "height": 180,
                 "weight": 80,
                 "gender": "M",
@@ -74,8 +74,8 @@ class UserCreate(UserRequest):
                 "username": "user",
                 "birthday": "2000-12-21",
                 "level": "amateur",
-                "latitude": 1000,
-                "longitude": 1000,
+                "latitude": 50,
+                "longitude": 50,
                 "height": 180,
                 "weight": 80,
                 "gender": "M",

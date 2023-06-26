@@ -1,5 +1,6 @@
 from sqlalchemy import (
     Column,
+    Float,
     Integer,
     PrimaryKeyConstraint,
     String,
@@ -18,8 +19,8 @@ class User(Base):
     email = Column(String(length=100), unique=True, index=True)
     username = Column(String(length=50), unique=True, index=True)
     birthday = Column(Date, nullable=True)
-    height = Column(Integer, nullable=True)
-    weight = Column(Integer, nullable=True)
+    height = Column(Float, nullable=True)
+    weight = Column(Float, nullable=True)
     gender = Column(String(length=1), nullable=True)
     target = Column(String, nullable=True)
     level = Column(String, nullable=True)

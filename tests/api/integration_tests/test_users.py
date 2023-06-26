@@ -403,3 +403,175 @@ def test_patch_user(test_app):
             "certified": False,
         },
     ]
+
+
+def test_get_trainers_by_distance_nearby(test_app):
+    data = {
+        "uid": "11",
+        "email": "t1@gmail.com",
+        "username": "user1",
+        "birthday": None,
+        "level": None,
+        "latitude": -36.623237918303765,
+        "longitude": -64.29505665365905,
+        "height": None,
+        "weight": None,
+        "gender": None,
+        "target": None,
+        "trainingtypes": [],
+        "user_type": "athlete",
+        "image_url": None,
+        "token": None,
+        "blocked": False,
+        "certified": False,
+    }
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+    # User closer than 1km
+    data = {
+        "uid": "10",
+        "email": "t@gmail.com",
+        "username": "user",
+        "birthday": None,
+        "level": None,
+        "latitude": -36.63026947744845,
+        "longitude": -64.2950330043538,
+        "height": None,
+        "weight": None,
+        "gender": None,
+        "target": None,
+        "trainingtypes": [],
+        "user_type": "trainer",
+        "image_url": None,
+        "token": None,
+        "blocked": False,
+        "certified": False,
+    }
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+
+    # User something further than 1 km
+    data = {
+        "uid": "12",
+        "email": "t2@gmail.com",
+        "username": "user2",
+        "birthday": None,
+        "level": None,
+        "latitude": -36.63291746170421,
+        "longitude": -64.29499572186721,
+        "height": None,
+        "weight": None,
+        "gender": None,
+        "target": None,
+        "trainingtypes": [],
+        "user_type": "trainer",
+        "image_url": None,
+        "token": None,
+        "blocked": False,
+        "certified": False,
+    }
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+
+    response = test_app.get(url="/users/11/trainers?distance=1")
+    assert response.status_code == 200
+    assert response.json()[0]["uid"] == "10"
+    assert len(response.json()) == 1
+
+
+def test_get_trainers_by_distance_further_away(test_app):
+    data = {
+        "uid": "11",
+        "email": "t1@gmail.com",
+        "username": "user1",
+        "birthday": None,
+        "level": None,
+        "latitude": -36.623237918303765,
+        "longitude": -64.29505665365905,
+        "height": None,
+        "weight": None,
+        "gender": None,
+        "target": None,
+        "trainingtypes": [],
+        "user_type": "athlete",
+        "image_url": None,
+        "token": None,
+        "blocked": False,
+        "certified": False,
+    }
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+    # User closer than 1km
+    data = {
+        "uid": "10",
+        "email": "t@gmail.com",
+        "username": "user",
+        "birthday": None,
+        "level": None,
+        "latitude": -36.63026947744845,
+        "longitude": -64.2950330043538,
+        "height": None,
+        "weight": None,
+        "gender": None,
+        "target": None,
+        "trainingtypes": [],
+        "user_type": "trainer",
+        "image_url": None,
+        "token": None,
+        "blocked": False,
+        "certified": False,
+    }
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+
+    # User something further than 1 km
+    data = {
+        "uid": "12",
+        "email": "t2@gmail.com",
+        "username": "user2",
+        "birthday": None,
+        "level": None,
+        "latitude": -36.63291746170421,
+        "longitude": -64.29499572186721,
+        "height": None,
+        "weight": None,
+        "gender": None,
+        "target": None,
+        "trainingtypes": [],
+        "user_type": "trainer",
+        "image_url": None,
+        "token": None,
+        "blocked": False,
+        "certified": False,
+    }
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+
+    # User something further than 500 km
+    data = {
+        "uid": "13",
+        "email": "t3@gmail.com",
+        "username": "user3",
+        "birthday": None,
+        "level": None,
+        "latitude": -34.56434345739304,
+        "longitude": -58.45399635927818,
+        "height": None,
+        "weight": None,
+        "gender": None,
+        "target": None,
+        "trainingtypes": [],
+        "user_type": "trainer",
+        "image_url": None,
+        "token": None,
+        "blocked": False,
+        "certified": False,
+    }
+    response = test_app.post(url="/users", json=data)
+    assert response.status_code == 201
+
+    response = test_app.get(url="/users/11/trainers?distance=100")
+    assert response.status_code == 200
+    assert response.json()[0]["uid"] == "10"
+    assert response.json()[1]["uid"] == "12"
+    assert len(response.json()) == 2

@@ -47,4 +47,4 @@ def filter_trainers_by_distance(
         if user_location.distance(other=trainer_location) <= distance:
             distant_trainers.append(trainer)
 
-    return trainers
+    return distant_trainers
