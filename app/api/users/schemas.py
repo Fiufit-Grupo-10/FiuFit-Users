@@ -20,6 +20,10 @@ class Gender(str, Enum):
     M = "M"
     F = "F"
     U = "U"
+    
+class UserType(str, Enum):
+    athlete = "athlete"
+    trainer = "trainer"
 
 
 class UserRequest(UserBase):
@@ -32,7 +36,7 @@ class UserRequest(UserBase):
     gender: Gender | None = Field(default=None, max_length=1)
     target: str | None = None
     trainingtypes: list[str] | None = None
-    user_type: str | None = Field(default=None, max_length=7)
+    user_type: UserType | None = Field(default=None, max_length=7)
     image_url: str | None = Field(default=None)
     token: str | None = Field(default=None)
     blocked: bool | None = Field(default=False)
