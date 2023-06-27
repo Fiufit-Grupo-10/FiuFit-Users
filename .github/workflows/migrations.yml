@@ -46,4 +46,6 @@ jobs:
       - name: Run migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: poetry run alembic upgrade head
+        run: |
+            poetry run alembic revision --autogenerate 
+            poetry run alembic upgrade head
