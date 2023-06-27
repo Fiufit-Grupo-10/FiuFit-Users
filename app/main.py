@@ -12,7 +12,7 @@ from ddtrace.contrib.asgi import TraceMiddleware
 from ddtrace import config as ddtrace_config
 
 # Override service name
-ddtrace_config.fastapi['service_name'] = 'users-service'
+ddtrace_config.fastapi["service_name"] = "users-service"
 
 
 # Esto podria hacerse solo si se esta en develop/corriendo el ci (capaz no hace falta igual)

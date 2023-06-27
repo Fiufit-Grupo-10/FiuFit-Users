@@ -1,76 +1,77 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from app.api.users import crud, schemas
+from app.api.users.utils import raise_integrity_error
 from app.dependencies import get_db
+from app.api.users import services
+from sqlalchemy.exc import IntegrityError
 
 
 router = APIRouter(tags=["users"])
 
 
-@router.post("/users", response_model=schemas.UserReturn, status_code=201)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    return crud.create_user(db=db, user=user)
-
-
 @router.post(
-    "/users/{user_id}/followers/{follower_id}",
-    response_model=schemas.FollowerReturn,
-    status_code=201,
+    "/users", response_model=schemas.UserReturn, status_code=status.HTTP_201_CREATED
 )
-def add_user_follower(user_id: str, follower_id: str, db: Session = Depends(get_db)):
-    followerreturn = jsonable_encoder(
-        crud.add_user_follower(db=db, followed_uid=user_id, follower_uid=follower_id)
-    )
-    return JSONResponse(content=followerreturn, status_code=201)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    try:
+        return crud.create_user(db=db, user=user)
+    except IntegrityError as e:
+        raise_integrity_error(
+            e, uid=user.uid, username=user.username, email=user.email, type="User"
+        )
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="TrainingType not found"
+        )
 
 
-@router.delete("/users/{user_id}/followers/{follower_id}", status_code=200)
-def delete_user_follower(user_id: str, follower_id: str, db: Session = Depends(get_db)):
-    crud.delete_user_follower(followed_uid=user_id, follower_uid=follower_id, db=db)
-    return JSONResponse(content=None, status_code=200)
-
-
-@router.get("/users/{user_id}/followers", response_model=list[str], status_code=200)
-def get_users_followers(user_id: str, db: Session = Depends(get_db)):
-    followers = crud.get_users_followers(db=db, uid=user_id)
-    followers = [follower.follower_uid for follower in followers]
-    followers = jsonable_encoder(followers)
-    return JSONResponse(content=followers, status_code=200)
-
-
-@router.get("/users/{user_id}/following", response_model=list[str], status_code=200)
-def get_users_following(user_id: str, db: Session = Depends(get_db)):
-    following = crud.get_users_following(db=db, uid=user_id)
-    following = [follower.followed_uid for follower in following]
-    following = jsonable_encoder(following)
-    return JSONResponse(content=following, status_code=200)
-
-
-@router.put("/users/{user_id}", response_model=schemas.UserReturn)
+@router.put(
+    "/users/{user_id}",
+    response_model=schemas.UserReturn,
+    status_code=status.HTTP_200_OK,
+)
 def update_user(user: schemas.UserRequest, user_id: str, db: Session = Depends(get_db)):
     if crud.get_user(db=db, user_id=user_id) is None:
         detail = f"User {user_id} not found"
-        raise HTTPException(status_code=404, detail=detail)
-    return crud.update_user(db=db, user=user, uid=user_id)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    try:
+        return crud.update_user(db=db, user=user, uid=user_id)
+    except IntegrityError as e:
+        raise_integrity_error(
+            e, uid=user.uid, username=user.username, email=user.email, type="User"
+        )
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="TrainingType not found"
+        )
 
 
-@router.patch("/users", response_model=list[schemas.UserReturn], status_code=200)
+@router.patch(
+    "/users", response_model=list[schemas.UserReturn], status_code=status.HTTP_200_OK
+)
 def update_users_block(users: list[schemas.UserBlock], db: Session = Depends(get_db)):
     return crud.update_user_block(users=users, db=db)
 
 
-@router.get("/users/{user_id}", response_model=schemas.UserReturn)
+@router.get(
+    "/users/{user_id}",
+    response_model=schemas.UserReturn,
+    status_code=status.HTTP_200_OK,
+)
 def get_user(user_id: str, db: Session = Depends(get_db)):
     user = crud.get_user(db=db, user_id=user_id)
     if user is None:
         detail = f"User {user_id} not found"
-        raise HTTPException(status_code=404, detail=detail)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
     return user
 
 
-@router.get("/users", response_model=list[schemas.UserReturn])
+@router.get(
+    "/users", response_model=list[schemas.UserReturn], status_code=status.HTTP_200_OK
+)
 def get_users(
     username: str | None = None,
     admin: bool = True,
@@ -102,4 +103,80 @@ def get_users(
             "certified",
         },
     )
-    return JSONResponse(content=users, status_code=200)
+    return JSONResponse(content=users, status_code=status.HTTP_200_OK)
+
+
+@router.post(
+    "/users/{user_id}/followers/{follower_id}",
+    response_model=schemas.FollowerReturn,
+    status_code=status.HTTP_201_CREATED,
+)
+def add_user_follower(user_id: str, follower_id: str, db: Session = Depends(get_db)):
+    user = crud.get_user(db=db, user_id=user_id)
+    if user is None:
+        detail = f"User {user_id} not found"
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    follower = crud.get_user(db=db, user_id=follower_id)
+    if follower is None:
+        detail = f"Follower {follower_id} not found"
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    followerreturn = jsonable_encoder(
+        crud.add_user_follower(db=db, followed_uid=user_id, follower_uid=follower_id)
+    )
+    return JSONResponse(content=followerreturn, status_code=status.HTTP_201_CREATED)
+
+
+@router.delete(
+    "/users/{user_id}/followers/{follower_id}", status_code=status.HTTP_200_OK
+)
+def delete_user_follower(user_id: str, follower_id: str, db: Session = Depends(get_db)):
+    crud.delete_user_follower(followed_uid=user_id, follower_uid=follower_id, db=db)
+    return JSONResponse(content=None, status_code=status.HTTP_200_OK)
+
+
+@router.get(
+    "/users/{user_id}/followers",
+    response_model=list[str],
+    status_code=status.HTTP_200_OK,
+)
+def get_users_followers(user_id: str, db: Session = Depends(get_db)):
+    user = crud.get_user(db=db, user_id=user_id)
+    if user is None:
+        detail = f"User {user_id} not found"
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    followers = crud.get_users_followers(db=db, uid=user_id)
+    followers = [follower.follower_uid for follower in followers]
+    followers = jsonable_encoder(followers)
+    return JSONResponse(content=followers, status_code=status.HTTP_200_OK)
+
+
+@router.get(
+    "/users/{user_id}/following",
+    response_model=list[str],
+    status_code=status.HTTP_200_OK,
+)
+def get_users_following(user_id: str, db: Session = Depends(get_db)):
+    user = crud.get_user(db=db, user_id=user_id)
+    if user is None:
+        detail = f"User {user_id} not found"
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    following = crud.get_users_following(db=db, uid=user_id)
+    following = [follower.followed_uid for follower in following]
+    following = jsonable_encoder(following)
+    return JSONResponse(content=following, status_code=status.HTTP_200_OK)
+
+
+@router.get(
+    "/users/{user_id}/trainers",
+    response_model=list[schemas.UserReturn],
+    status_code=status.HTTP_200_OK,
+)
+def filter_trainers_by_distance(
+    user_id: str, distance: float, db: Session = Depends(get_db)
+):
+    user = crud.get_user(db=db, user_id=user_id)
+    if user is None:
+        detail = f"User {user_id} not found"
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    trainers = services.filter_trainers_by_distance(user=user, distance=distance, db=db)
+    return trainers
