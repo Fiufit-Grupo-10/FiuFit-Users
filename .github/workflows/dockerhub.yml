@@ -49,6 +49,6 @@ jobs:
      
       - name: Rollout deployment
         run: |
-          apt install -y ca-certificates curl apt-transport-https
-          apt update && apt upgrade
+          sudo apt install -y ca-certificates curl apt-transport-https
+          sudo apt update && apt upgrade
           kubectl rollout restart deployment/service-users --namespace=franco-jyq
