@@ -8,12 +8,12 @@ from app.api.admins import models as admins_models
 from app.api.certificates import routes as certificate_routes
 from app.api.certificates import models as certificate_models
 from .config.database import engine
+from .config.config import DEV_ENV
 from ddtrace.contrib.asgi import TraceMiddleware
 from ddtrace import config as ddtrace_config
 
 # Override service name
 ddtrace_config.fastapi["service_name"] = "users-service"
-
 
 # Esto podria hacerse solo si se esta en develop/corriendo el ci (capaz no hace falta igual)
 users_models.Base.metadata.create_all(bind=engine)
@@ -22,7 +22,8 @@ training_types_models.Base.metadata.create_all(bind=engine)
 certificate_models.Base.metadata.create_all(bind=engine)
 #
 app = FastAPI()
-app.add_middleware(TraceMiddleware)
+if DEV_ENV == "true":
+    app.add_middleware(TraceMiddleware)
 
 
 app.include_router(users_routes.router)
