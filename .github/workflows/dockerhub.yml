@@ -49,5 +49,6 @@ jobs:
      
       - name: Rollout deployment
         run: |
-          kubectl config use-context minikube
+          apt install -y ca-certificates curl apt-transport-https
+          apt update && apt upgrade
           kubectl rollout restart deployment/service-users --namespace=franco-jyq
