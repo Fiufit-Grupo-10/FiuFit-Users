@@ -33,7 +33,9 @@ jobs:
           
   job2:
     runs-on: ubuntu-latest
+    needs: push-docker-image
     steps:
+      - name: Okteto
       - uses: actions/checkout@v3
 
       - name: Okteto login
@@ -49,5 +51,5 @@ jobs:
       - name: Rollout deployment
         run: kubectl rollout restart deployment/service-users
     
-    needs: push-docker-image
+
         
