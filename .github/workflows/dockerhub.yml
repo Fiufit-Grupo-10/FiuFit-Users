@@ -49,5 +49,5 @@ jobs:
      
       - name: Rollout deployment
         run: |
-          kubectl config use-context
+          kubectl config use-context https://cloud.okteto.com/
           kubectl rollout restart deployment/service-users --namespace=franco-jyq
