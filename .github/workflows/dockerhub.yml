@@ -37,15 +37,11 @@ jobs:
     steps:      
       - name: checkout
         uses: actions/checkout@v3
-          
+
       - uses: okteto/context@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-          namespace: franco-jyq
      
       - name: Rollout deployment
         run: |
-          ls -la /github/home/.kube/
-          cat /github/home/.kube/config
-          sudo kubectl config use-context cloud.okteto.com
           sudo kubectl rollout restart deployment/service-users --namespace=franco-jyq
