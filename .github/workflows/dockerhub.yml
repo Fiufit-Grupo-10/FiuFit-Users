@@ -42,7 +42,7 @@ jobs:
       
       - uses: okteto/namespace@latest
         with:
-          name: franco-jyq
+          namespace: franco-jyq
       
       - uses: okteto/context@latest
         with:
