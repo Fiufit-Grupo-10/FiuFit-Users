@@ -38,14 +38,16 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
       
+      
+      - uses: okteto/login@latest
+        with:
+          token: ${{ secrets.OKTETO_TOKEN }}
+          
       - uses: okteto/context@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
           namespace: franco-jyq
           
-#     - uses: okteto/login@latest
-#         with:
-#           token: ${{ secrets.OKTETO_TOKEN }}
       
       - uses: okteto/namespace@latest
         with:
