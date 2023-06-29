@@ -54,4 +54,4 @@ jobs:
           namespace: franco-jyq
            
       - name: Rollout deployment
-        run: kubectl rollout restart deployment service-users --namespace=franco-jyq
+        run: kubectl rollout restart deployment/service-users --namespace=franco-jyq
