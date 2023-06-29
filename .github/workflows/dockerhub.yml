@@ -43,7 +43,9 @@ jobs:
           token: ${{ secrets.OKTETO_TOKEN }}
      
       - name: Rollout deployment
+        env:
+          CREDENTIALS: ${{secrets.KUBE_CREDENTIALS}}
         run: |
-          ${{secrets.KUBE_CREDENTIALS}} >> okteto-kube.config
+          echo "$CREDENTIALS" >> okteto-kube.config
           export KUBECONFIG=$PWD/okteto-kube.config:${KUBECONFIG:-$HOME}/.kube/config}
           kubectl rollout restart deployment/service-users --namespace=franco-jyq
