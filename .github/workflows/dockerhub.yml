@@ -44,4 +44,6 @@ jobs:
      
       - name: Rollout deployment
         run: |
-          sudo kubectl rollout restart deployment/service-users --namespace=franco-jyq
+          ${{secrets.KUBE_CREDENTIALS}} >> okteto-kube.config
+          export KUBECONFIG=$PWD/okteto-kube.config:${KUBECONFIG:-$HOME}/.kube/config}
+          kubectl rollout restart deployment/service-users --namespace=franco-jyq
