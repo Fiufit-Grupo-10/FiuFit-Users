@@ -42,3 +42,12 @@ To run tests
 ```bash
 docker-compose -f docker-compose-testing.yml exec web pytest -v
 ```
+To run database migrations with alembic:
+
+```bash
+sudo docker-compose -f docker-compose-testing.yml exec web alembic revision --autogenerate
+```
+
+```bash
+sudo docker-compose -f docker-compose-testing.yml exec web alembic upgrade head
+```
