@@ -21,6 +21,7 @@ structlog_processors = [
 
 DEV_ENV = os.getenv("DEV", "false").lower()
 
+
 def get_processors() -> Iterable[Processor]:
     timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
     processors = [
