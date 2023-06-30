@@ -9,12 +9,8 @@ on:
       - tests/**
       - Dockerfile
       - docker-compose.yml
-  push:
-    branches:
-      - main
-    
+      
   workflow_dispatch:
-  
 
 jobs:
   test:
@@ -36,14 +32,8 @@ jobs:
           --health-retries 5
         ports:
           # Maps tcp port 5432 on service container to the host
-          - 5432:5432        
+          - 5432:5432                          
         
-          
-          
-             
-          
-
-    
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
